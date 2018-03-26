@@ -22,7 +22,7 @@ Phiew that was a lot! Any space left on your device? Just one more:
 meteor add cultofcoders:apollo
 ```
 
-That's it baby, your Meteor app is now Apollo-enhanced, you don't have to do anything else.
+Your Meteor app is now Apollo-enhanced, you don't have to do anything else, just setup your client:
 
 ```js
 // in client-side code
@@ -46,7 +46,7 @@ Meteor.startup(() => {
 We recommend but it's not mandatory, to have support for `.gql` files:
 
 ```bash
-meteor add swydlo:graphql
+meteor add swydo:graphql
 ```
 
 ## Usage
@@ -90,7 +90,7 @@ You have several options:
 
 1.  Start your meteor app with DISABLE_WEBSOCKETS=true
 2.  Start a minimal meteor app that only uses npm packages and copy what is inside client/index.js and adapt it properly
-3.  Think about shifting your frontend part to `create-react-app`, and just copy what's inside `client`
+3.  Think about shifting your frontend part to `create-react-app`, and just copy what's inside this package's `client` folder
 
 ## Live Data
 
