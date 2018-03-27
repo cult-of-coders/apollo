@@ -1,6 +1,6 @@
 Package.describe({
   name: 'cultofcoders:apollo',
-  version: '0.1.1',
+  version: '0.1.3',
   // Brief, one-line summary of the package.
   summary: 'Meteor & Apollo integration',
   // URL to the Git repository containing the source code for this package.
@@ -13,8 +13,9 @@ Package.describe({
 Package.onUse(function(api) {
   api.versionsFrom('1.3');
   api.use('ecmascript');
-  api.use('apollo@2.0.0');
+  api.use('check');
   api.use('mongo');
+  api.use('accounts-base', { weak: true });
 
   api.mainModule('client/index.js', 'client');
   api.mainModule('server/index.js', 'server');
