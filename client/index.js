@@ -5,7 +5,7 @@ import { HttpLink } from 'apollo-link-http';
 import { split, concat, ApolloLink } from 'apollo-link';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { getMainDefinition } from 'apollo-utilities';
-import { meteorAccountsLink } from 'meteor/apollo';
+import { meteorAccountsLink } from './meteorAccountsLink';
 import {
   GRAPHQL_SUBSCRIPTION_ENDPOINT,
   GRAPHQL_ENDPOINT,

@@ -5,10 +5,6 @@ const EMPTY_QUERY_ERROR =
   'Error: Specified query type "Query" not found in document.';
 
 export function getExecutableSchema() {
-  if (schema) {
-    return schema;
-  }
-
   try {
     schema = makeExecutableSchema(getSchema());
   } catch (error) {

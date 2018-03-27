@@ -50,6 +50,51 @@ query {
 }
 ```
 
+## Settings
+
+```js
+{
+  // By default we open the websocket that supports authentication
+  // You can only expose an HTTP Server and that's it
+  DISABLE_SUBSCRIPTIONS: false,
+
+  // You can disable GraphiQL
+  // By default it's only enabled in development mode
+  DISABLE_GRAPHIQL: !Meteor.isDevelopment,
+
+  // Context that is going to be passed to resolvers
+  CONTEXT: {},
+
+  // If engine key is present it will automatically instantiate it for you
+  ENGINE_API_KEY: null,
+  // Should be the same port as your Meteor port or `process.env.PORT`
+  ENGINE_PORT: 3000,
+
+  // Because we support authentication by default
+  // We inject { user, userId } into the context
+  // These fields represent what fields to retrieve from the logged in user on every request
+  // You can use `undefined` if you want all fields
+  USER_DEFAULT_FIELDS: {
+    _id: 1,
+    username: 1,
+    emails: 1,
+    profile: 1,
+    roles: 1,
+  },
+}
+```
+
+Change any value you like by doing:
+
+```js
+// in some startup file on the server
+import { Config } from 'meteor/cultofcoders:apollo';
+
+Object.assign(Config, {
+  ENGINE_API_KEY: Meteor.settings.ENGINE_API_KEY,
+});
+```
+
 ## GraphQL Files
 
 It would be quite nice if we could write our types inside `.gql` or `.graphql` files right, so we can benefit of some nice syntax highlighting:
@@ -254,7 +299,7 @@ load(AccountsModule); // Make sure you have User type defined as it works direct
 
 Now you can already start creating users, logging in, open up your GraphiQL and look in the Mutation documentations.
 
-If you want to test authentication live and you don't yet have a client-side. Just create a user:
+If you want to test authentication live and you don't yet have a client-side setup. Just create a user:
 
 ```js
 mutation {
@@ -312,9 +357,11 @@ import { wsLink, client } from 'meteor/cultofcoders:apollo';
 
 onTokenChange(function() {
   client.resetStore();
-  wsLink.subscriptionClient.close(true);
+  wsLink.subscriptionClient.close(true); // it will restart the websocket connection
 });
 ```
+
+If you are using SSR and want to benefit from authentication for server-renders, check out this comment https://github.com/apollographql/meteor-integration/issues/116#issuecomment-370923220
 
 ## React Client
 
