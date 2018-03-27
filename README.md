@@ -100,6 +100,19 @@ These 2 packages work hand-in-hand with the live queries from Meteor, a seemless
 
 Alongside [`redis-oplog`](https://github.com/cult-of-coders/redis-oplog) you can have large scale reactivity at low costs.
 
+## Scalars
+
+This package comes with 2 scalars `Date` (because it's very common) and `JSON` (because we need it for easy reactivity inside `apollo-live-server`.
+
+You can use it in your types:
+
+```js
+type User {
+  createdAt: Date!
+  dynamicInformation: JSON
+}
+```
+
 ## Accounts
 
 Adding accounts to your GraphQL Schema:

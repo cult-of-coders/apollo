@@ -5,8 +5,7 @@ export default new GraphQLScalarType({
   name: 'Date',
   description: 'Date custom scalar type',
   parseValue(value) {
-    console.log('parsing', value);
-    return new Date(value);
+    return new Date(Date.parse(value));
   },
   serialize(value) {
     return value.toISOString();
