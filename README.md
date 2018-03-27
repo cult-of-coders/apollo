@@ -4,19 +4,19 @@ A simple wrapper to easily add Apollo to your app, which contains:
 
 * Apollo Live features (Reactive Queries Support)
 * Date and JSON scalars
-* GraphiQL Support + Built-in Authentication
-* An easy way to add accounts
-* Authentication support over HTTP and Subscriptions
+* HTTP and Websockets Authentication Built-in
+* GraphiQL Support & Authentication
+* Ability to easy add Meteor Accounts Support
 
 ## Install
 
-Sorry, but you have to:
+First, let's get up and running with all the npm dependencies:
 
 ```bash
-meteor npm i -S subscriptions-transport-ws apollo-live-server apollo-live-client apollo-client apollo-cache-inmemory apollo-link apollo-link-http apollo-link-ws subscriptions-transport-ws graphql-load
+meteor npm i -S graphql graphql-load subscriptions-transport-ws apollo-live-server apollo-live-client apollo-client apollo-cache-inmemory apollo-link apollo-link-http apollo-link-ws apollo-server-express subscriptions-transport-ws uuid graphql-subscriptions body-parser express graphql-tools graphql-type-json
 ```
 
-Phiew that was a lot! Any space left on your device? Just one more:
+Phiew that was a lot! Any space left on your device? Now let's add our package:
 
 ```bash
 meteor add cultofcoders:apollo
