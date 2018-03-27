@@ -13,7 +13,7 @@ A simple wrapper to easily add Apollo to your app, which contains:
 First, let's get up and running with all the npm dependencies:
 
 ```bash
-meteor npm i -S graphql graphql-load subscriptions-transport-ws apollo-live-server apollo-live-client apollo-client apollo-cache-inmemory apollo-link apollo-link-http apollo-link-ws apollo-server-express subscriptions-transport-ws uuid graphql-subscriptions body-parser express graphql-tools graphql-type-json
+meteor npm i -S graphql graphql-load subscriptions-transport-ws apollo-live-server apollo-live-client apollo-client apollo-cache-inmemory apollo-link apollo-link-http apollo-link-ws express apollo-server-express uuid graphql-subscriptions body-parser graphql-tools graphql-type-json
 ```
 
 Phiew that was a lot! Any space left on your device? Now let's add our package:
