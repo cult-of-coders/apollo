@@ -4,6 +4,7 @@ import { WebApp } from 'meteor/webapp';
 import { SubscriptionServer } from 'subscriptions-transport-ws';
 import { execute, subscribe } from 'graphql';
 import { AUTH_TOKEN_KEY, GRAPHQL_SUBSCRIPTION_PATH } from '../constants';
+import { addCurrentUserToContext } from 'meteor/apollo';
 
 let context = {};
 
