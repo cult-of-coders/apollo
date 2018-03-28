@@ -15,9 +15,11 @@ export function createServer({ schema }) {
   return createApolloServer(
     {
       schema,
+      context: Config.CONTEXT,
+      // tracing: true,
+      // cacheControl: true,
     },
     {
-      context: Config.CONTEXT,
       graphiqlOptions,
     }
   );

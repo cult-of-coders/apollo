@@ -1,3 +1,5 @@
+import { WebApp } from 'meteor/webapp';
+
 export function createEngine({ expressApp, port, apiKey }) {
   const { ApolloEngine } = require('apollo-engine');
 
@@ -5,10 +7,7 @@ export function createEngine({ expressApp, port, apiKey }) {
     apiKey,
   });
 
-  engine.listen({
-    port,
-    expressApp,
-  });
+  engine.meteorListen(WebApp);
 
   return engine;
 }

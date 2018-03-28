@@ -1,8 +1,10 @@
-import { Meteor } from 'meteor/meteor';
-import { getExecutableSchema } from './schema';
-import { WebApp } from 'meteor/webapp';
 import { SubscriptionServer } from 'subscriptions-transport-ws';
 import { execute, subscribe } from 'graphql';
+
+import { Meteor } from 'meteor/meteor';
+import { WebApp } from 'meteor/webapp';
+
+import { getExecutableSchema } from './schema';
 import { AUTH_TOKEN_KEY, GRAPHQL_SUBSCRIPTION_PATH } from '../constants';
 import { addCurrentUserToContext } from './core/users';
 import Config from './config';
@@ -16,7 +18,7 @@ export function createSubscriptionServer({ schema }) {
       subscribe,
       // on connect subscription lifecycle event
       onConnect: async (connectionParams, webSocket) => {
-        const context = {};
+        const context = Config.CONTEXT;
 
         // if a meteor login token is passed to the connection params from the client,
         // add the current user to the subscription context
