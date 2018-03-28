@@ -50,51 +50,6 @@ query {
 }
 ```
 
-## Settings
-
-```js
-{
-  // By default we open the websocket that supports authentication
-  // You can only expose an HTTP Server and that's it
-  DISABLE_SUBSCRIPTIONS: false,
-
-  // You can disable GraphiQL
-  // By default it's only enabled in development mode
-  DISABLE_GRAPHIQL: !Meteor.isDevelopment,
-
-  // Context that is going to be passed to resolvers
-  CONTEXT: {},
-
-  // If engine key is present it will automatically instantiate it for you
-  ENGINE_API_KEY: null,
-  // Should be the same port as your Meteor port or `process.env.PORT`
-  ENGINE_PORT: 3000,
-
-  // Because we support authentication by default
-  // We inject { user, userId } into the context
-  // These fields represent what fields to retrieve from the logged in user on every request
-  // You can use `undefined` if you want all fields
-  USER_DEFAULT_FIELDS: {
-    _id: 1,
-    username: 1,
-    emails: 1,
-    profile: 1,
-    roles: 1,
-  },
-}
-```
-
-Change any value you like by doing:
-
-```js
-// in some startup file on the server
-import { Config } from 'meteor/cultofcoders:apollo';
-
-Object.assign(Config, {
-  ENGINE_API_KEY: Meteor.settings.ENGINE_API_KEY,
-});
-```
-
 ## GraphQL Files
 
 It would be quite nice if we could write our types inside `.gql` or `.graphql` files right, so we can benefit of some nice syntax highlighting:
@@ -102,6 +57,8 @@ It would be quite nice if we could write our types inside `.gql` or `.graphql` f
 ```bash
 meteor add swydo:graphql
 ```
+
+If you don't want, just create `.js` files that export a string.
 
 ## A more complex sample
 
@@ -392,7 +349,58 @@ You have several options:
 
 1.  Start your meteor app with DISABLE_WEBSOCKETS=true
 2.  Start a minimal meteor app that only uses npm packages and copy what is inside client/index.js and adapt it properly
-3.  Think about shifting your frontend part to `create-react-app`, and just copy what's inside this package's `client` folder
+3.  Think about shifting your frontend to a separate Meteor application
+
+## Settings
+
+```js
+{
+  // By default we open the websocket that supports authentication
+  // You can only expose an HTTP Server and that's it
+  // If you are using the client from this package, you have to have the same config on the client-side as well
+  DISABLE_SUBSCRIPTIONS: false,
+
+  // You can disable GraphiQL
+  // By default it's only enabled in development mode
+  DISABLE_GRAPHIQL: !Meteor.isDevelopment,
+
+  // Context that is going to be passed to resolvers
+  CONTEXT: {},
+
+  // If engine key is present it will automatically instantiate it for you
+  ENGINE_API_KEY: null,
+  // Should be the same port as your Meteor port or `process.env.PORT`
+  ENGINE_PORT: 3000,
+
+  // Here you can add certain validation rules to the GraphQL query
+  // If, for example, you want to disable introspection on production
+  // https://github.com/helfer/graphql-disable-introspection
+  GRAPHQL_VALIDATION_RULES: [],
+
+  // Because we support authentication by default
+  // We inject { user, userId } into the context
+  // These fields represent what fields to retrieve from the logged in user on every request
+  // You can use `undefined` if you want all fields
+  USER_DEFAULT_FIELDS: {
+    _id: 1,
+    username: 1,
+    emails: 1,
+    profile: 1,
+    roles: 1,
+  },
+}
+```
+
+Change any value you like by doing:
+
+```js
+// in some startup file on the server
+import { Config } from 'meteor/cultofcoders:apollo';
+
+Object.assign(Config, {
+  ENGINE_API_KEY: Meteor.settings.ENGINE_API_KEY,
+});
+```
 
 ## Premium Support
 
