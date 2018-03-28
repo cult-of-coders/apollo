@@ -82,8 +82,11 @@ export const createApolloServer = (customOptions = {}, customConfig = {}) => {
         // network interface middleware if enabled
         const loginToken = req.headers['meteor-login-token'];
 
-        // get the current user & the user id for the context
-        const userContext = await getUserForContext(loginToken);
+        let userContext = {};
+        if (Package['accounts-base']) {
+          // get the current user & the user id for the context
+          userContext = await getUserForContext(loginToken);
+        }
 
         // context can accept a function returning the context object
         const context =
