@@ -1,18 +1,25 @@
 import { ApolloClient } from 'apollo-client';
 import { ApolloLink } from 'apollo-link';
-import { HttpLink } from 'apollo-link-http';
-import { InMemoryCache } from 'apollo-cache-inmemory';
-import { Meteor } from 'meteor/meteor';
-import { Accounts } from 'meteor/accounts-base';
 
-export const meteorAccountsLink = new ApolloLink((operation, forward) => {
-  const token = Accounts._storedLoginToken();
+let meteorAccountsLink;
 
-  operation.setContext(() => ({
-    headers: {
-      'meteor-login-token': token,
-    },
-  }));
+// We have a weak dependency on this package, and if we import it without it being added, it will crash
+if (Package['accounts-base']) {
+  import { Accounts } from 'meteor/accounts-base';
+  
+  meteorAccountsLink = new ApolloLink((operation, forward) => {
+    const token = Accounts._storedLoginToken();
+  
+    operation.setContext(() => ({
+      headers: {
+        'meteor-login-token': token,
+      },
+    }));
+  
+    return forward(operation);
+  });
+}
 
-  return forward(operation);
-});
+export {
+  meteorAccountsLink
+}

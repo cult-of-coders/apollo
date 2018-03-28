@@ -4,7 +4,6 @@ import express from 'express';
 
 import { Meteor } from 'meteor/meteor';
 import { WebApp } from 'meteor/webapp';
-import { Accounts } from 'meteor/accounts-base';
 import { check } from 'meteor/check';
 import { getUserForContext, addUserToContext } from './users';
 import Config from '../config';
