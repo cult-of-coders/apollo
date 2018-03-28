@@ -16,6 +16,7 @@ export function createServer({ schema }) {
     {
       schema,
       context: Config.CONTEXT,
+      validationRules: Config.GRAPHQL_VALIDATION_RULES,
       // tracing: true,
       // cacheControl: true,
     },
