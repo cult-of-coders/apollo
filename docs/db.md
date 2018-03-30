@@ -13,8 +13,15 @@ The advantage is that you can start using your database and related links in jus
 ```typescript
 type Post @mongo(name: "posts")
 {
-  text: String!
+  title: String!
   author: Author @link(field: "authorId")
+  comments: [Comment] @link(to: "post")
+}
+
+type Comment @mongo(name: "comments")
+{
+  text: String!
+  post: Post @link(field: "postId")
 }
 
 type Author @mongo(name: "authors")
@@ -32,10 +39,12 @@ type Group @mongo(name: "groups") {
 
 Above we have the following relationships:
 
-* Post has one author and it's stored in `authorId`
-* Author has many posts
-* Author belongs to many groups and it's stored in `groupIds`
-* Groups have many authors
+* Post has one Author and it's stored in `authorId`
+* Post has many Comments and is linked to the `post` link
+* Comment is linked to a post, and that is stored in `postId`
+* Author has many Posts and is linked to the `author` link
+* Author belongs to many Groups and it's stored in `groupIds`
+* Groups have many Authors and is linked to `groups` link
 
 And the beautiful part is that for prototyping this is so fast, because we inject the db inside our context:
 
@@ -45,28 +54,55 @@ https://github.com/cult-of-coders/grapher-schema-directives
 ```js
 export default {
   Query: {
-    posts(_, args, ctx, ast) {
+    posts(_, args, { db }, ast) {
       // Performantly fetch the query using Grapher
       // You don't need to implement resolvers for your links, it's all done automatically
-
-      return ctx.db.posts.astToQuery(ast).fetch();
+      // Grapher will only fetch the fields you require
+      return db.posts.astToQuery(ast).fetch();
       // but you can do whatever you want here since ctx.db.posts is a Mongo.Collection
       // https://docs.meteor.com/api/collections.html
     },
   },
   Mutation: {
-    addPost(_, { title }, ctx) {
-      ctx.db.posts.insert({
+    addPost(_, { title }, { db }) {
+      db.posts.insert({
         title,
       });
     },
+    addCommentToPost(_, { postId, text }, { db }) {
+      // You can do this manually, but with Linker Engine from Grapher is nicer because
+      // it makes you not care at all about the stored fields, you only care about the linked name
+      // it takes care of the rest
+      // https://github.com/cult-of-coders/grapher/blob/master/docs/linker_engine.md
+      db.posts.getLink('comments').add({
+        text,
+      });
+
+      // or if you need the comment id:
+      const commentId = db.comments.insert({ text });
+      const commentLink = db.posts.getLink(postId, 'comments');
+      commentLink.add(commentId);
+
+      return commentId;
+
+      // alternatively, from the other side:
+      const commentId = db.comments.insert({ text });
+      db.comments.getLink(commentId, 'post').set(postId);
+
+      // Or just avoid Linker Engine
+      const comment = {
+        text,
+        postId,
+      };
+      return db.comments.insert(comment);
+    },
   },
   Subscription: {
-    posts(_, args, ctx) {
+    posts(_, args, { db }) {
       // You can also use astToBody from Grapher, to only follow the requested fields
       // But since that is a rare case, we won't cover it here so we keep it simple:
       // But note that reactivity only works at a single level.
-      ctx.db.posts.find(
+      db.posts.find(
         {},
         {
           fields: { status: 1 },
@@ -79,3 +115,6 @@ export default {
 
 Read more about Grapher's GraphQL bridge:
 https://github.com/cult-of-coders/grapher/blob/master/docs/graphql.md
+
+Read more about advanced functionalities of Collections:
+http://www.meteor-tuts.com/chapters/3/persistence-layer.html
