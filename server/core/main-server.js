@@ -62,6 +62,7 @@ export const createApolloServer = (customOptions = {}, customConfig = {}) => {
   // GraphQL endpoint, enhanced with JSON body parser
   graphQLServer.use(
     config.path,
+    ...Config.EXPRESS_MIDDLEWARES,
     bodyParser.json(),
     graphqlExpress(async req => {
       try {

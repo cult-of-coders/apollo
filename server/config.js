@@ -1,5 +1,7 @@
-export default {
-  CONTEXT: {},
+import { db } from 'meteor/cultofcoders:grapher';
+
+let Config = {
+  CONTEXT: { db },
   DISABLE_SUBSCRIPTIONS: false,
   DISABLE_GRAPHIQL: !Meteor.isDevelopment,
   ENGINE_API_KEY: null,
@@ -8,6 +10,10 @@ export default {
     _id: 1,
     username: 1,
     emails: 1,
-    profile: 1,
+    roles: 1,
   },
+  GRAPHQL_VALIDATION_RULES: [],
+  GRAPHQL_SCHEMA_DIRECTIVES: {},
 };
+
+export default Config;
