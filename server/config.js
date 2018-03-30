@@ -14,6 +14,7 @@ let Config = {
   },
   GRAPHQL_VALIDATION_RULES: [],
   GRAPHQL_SCHEMA_DIRECTIVES: {},
+  EXPRESS_MIDDLEWARES: [],
 };
 
 export default Config;
