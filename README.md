@@ -80,7 +80,6 @@ query {
 
 * [graphql-load](https://www.npmjs.com/package/graphql-load?activeTab=readme)
 * [disable-introspection](https://github.com/helfer/graphql-disable-introspection)
-*
 
 ## Premium Support
 
