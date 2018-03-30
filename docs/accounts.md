@@ -124,7 +124,7 @@ To use them nicely inside your client:
 meteor npm i -S bcrypt meteor-apollo-accounts
 ```
 
-Read here: https://github.com/orionsoft/meteor-apollo-accounts#methods
+Read here: https://github.com/cult-of-coders/meteor-apollo-accounts#methods
 
 If you are using SSR and want to benefit from authentication for server-renders, check out this comment https://github.com/apollographql/meteor-integration/issues/116#issuecomment-370923220
 

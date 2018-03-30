@@ -1,23 +1,23 @@
 # Meteor Apollo
 
-A simple wrapper to easily add Apollo to your app, which contains:
+Features:
 
-* Apollo Live features (Reactive Queries Support)
+* Plug and Play Zero-Config GraphQL Server
+* GraphiQL + Subscription Support
+* Apollo Live Features (Reactive Scalable Queries)
+* MongoDB Tailored
 * Date and JSON scalars
-* HTTP and Websockets Authentication Built-in
-* GraphiQL Support & Authentication
-* Ability to easy add Meteor Accounts Support
+* HTTP and Subscription built-in Authentication (+ GraphiQL Authentication Support)
+* Meteor Accounts (Plug & Play)
 
 ## Install
 
-```
-curl https://install.meteor.com/ | sh
-meteor create --bare myFirstGraphQlProject
-```
+If you do not Meteor up and running, [install it from here](https://www.meteor.com/install)
 
-You can install Meteor on Windows too: https://www.meteor.com/install
-
-Let's get up and running with all the npm dependencies:
+```
+meteor create --bare graphql-baby
+cd graphql-baby
+```
 
 ```bash
 meteor npm i -S graphql graphql-load subscriptions-transport-ws apollo-live-server apollo-live-client apollo-client apollo-cache-inmemory apollo-link apollo-link-http apollo-link-ws express apollo-server-express uuid graphql-subscriptions body-parser graphql-tools graphql-type-json
