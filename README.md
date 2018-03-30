@@ -14,24 +14,17 @@ Features:
 
 If you do not Meteor up and running, [install it from here](https://www.meteor.com/install)
 
-```
+```bash
 meteor create --bare graphql-baby
 cd graphql-baby
-```
 
-```bash
+# Now we install our npm dependencies
 meteor npm i -S graphql graphql-load subscriptions-transport-ws apollo-live-server apollo-live-client apollo-client apollo-cache-inmemory apollo-link apollo-link-http apollo-link-ws express apollo-server-express uuid graphql-subscriptions body-parser graphql-tools graphql-type-json
-```
 
-Phiew that was a lot! Any space left on your device? Now let's add our package:
-
-```bash
+# Now we add the package
 meteor add cultofcoders:apollo
-```
 
-We recommend this package so you can store your types inside `.gql` or `.graphql` files, so you can easily import them.
-
-```bash
+# Optional but highly recommended (so you can import .gql/.graphql files)
 meteor add swydo:graphql
 ```
 
