@@ -21,6 +21,7 @@ export function createServer({ schema }) {
       // cacheControl: true,
     },
     {
+      graphiql: !Config.DISABLE_GRAPHIQL,
       graphiqlOptions,
     }
   );

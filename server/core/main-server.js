@@ -14,8 +14,6 @@ const defaultServerConfig = {
   path: '/graphql',
   // additional Express server configuration (enable CORS there for instance)
   configServer: graphQLServer => {},
-  // enable GraphiQL only in development mode
-  graphiql: !Config.DISABLE_GRAPHIQL,
   // GraphiQL endpoint
   graphiqlPath: '/graphiql',
   // GraphiQL options (default: log the current user in your request)
