@@ -1,7 +1,5 @@
-import { db } from 'meteor/cultofcoders:grapher';
-
 let Config = {
-  CONTEXT: { db },
+  CONTEXT: {},
   DISABLE_SUBSCRIPTIONS: false,
   DISABLE_GRAPHIQL: !Meteor.isDevelopment,
   ENGINE_API_KEY: null,

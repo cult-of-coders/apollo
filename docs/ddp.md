@@ -21,4 +21,8 @@ And that's about it, used in conjunction with `DISABLE_WEBSOCKETS` is perfect.
 
 The problem is that many useful packages in `Meteor` depend on `DDP`, it's not a problem if that happens server-side (at the expense of few hundred kbs), but it's a problem on the client, where few hundred kbs make a difference.
 
-The logic here is that you can use `fusion`, and when your app wants to scale and it makes sense, you can think about a separate Meteor app that is designated for the client only, and from which you connect to your `api` with ease
+The logic here is that you can use `fusion`, and when your app wants to scale and it makes sense, you can think about a separate Meteor app that is designated for the client only, and from which you connect to your `api` with ease.
+
+---
+
+### [Table of Contents](table-of-contents.md)

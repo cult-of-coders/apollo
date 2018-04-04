@@ -4,9 +4,17 @@ import { createServer } from './apolloServer';
 import { createSubscriptionServer } from './subcriptionServer';
 import { createEngine } from './engineServer';
 import { getExecutableSchema } from './schema';
+import { db } from 'meteor/cultofcoders:grapher';
 import Config from './config';
 
-Meteor.startup(() => {
+export default function initialize(config = {}) {
+  Object.assign(Config, config);
+  Object.assign(Config.CONTEXT, {
+    db,
+  });
+
+  Object.freeze(Config);
+
   const schema = getExecutableSchema();
   const app = createServer({ schema });
 
@@ -21,4 +29,4 @@ Meteor.startup(() => {
   if (!Config.DISABLE_SUBSCRIPTIONS) {
     createSubscriptionServer({ schema });
   }
-});
+}

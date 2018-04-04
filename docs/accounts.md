@@ -142,3 +142,7 @@ load({
   }
 })
 ```
+
+---
+
+### [Table of Contents](table-of-contents.md)

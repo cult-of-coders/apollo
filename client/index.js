@@ -14,42 +14,55 @@ import {
   AUTH_TOKEN_KEY,
 } from '../constants';
 
-let links = [];
+export function initialize(config = {}) {
+  Object.assign(Config, config);
+  Object.freeze(Config);
 
-if (!Config.DISABLE_WEBSOCKETS) {
-  export const wsLink = new WebSocketLink({
-    uri: GRAPHQL_SUBSCRIPTION_ENDPOINT,
-    options: {
-      reconnect: true,
-      connectionParams: () => ({
-        [AUTH_TOKEN_KEY]: localStorage.getItem('Meteor.loginToken'),
-      }),
-    },
+  let links = [];
+  let wsLink;
+
+  if (!Config.DISABLE_WEBSOCKETS) {
+    wsLink = new WebSocketLink({
+      uri: GRAPHQL_SUBSCRIPTION_ENDPOINT,
+      options: {
+        reconnect: true,
+        connectionParams: () => ({
+          [AUTH_TOKEN_KEY]: localStorage.getItem('Meteor.loginToken'),
+        }),
+      },
+    });
+
+    links.push(wsLink);
+  }
+
+  const httpLink = new HttpLink({
+    uri: GRAPHQL_ENDPOINT,
   });
 
-  links.push(wsLink);
+  if (meteorAccountsLink) {
+    links.push(concat(meteorAccountsLink, httpLink));
+  } else {
+    links.push(httpLink);
+  }
+
+  const link = split(({ query }) => {
+    const { kind, operation } = getMainDefinition(query);
+    return kind === 'OperationDefinition' && operation === 'subscription';
+  }, ...links);
+
+  const client = new ApolloClient({
+    link,
+    cache: new InMemoryCache({
+      dataIdFromObject: object => object._id || null,
+    }),
+  });
+
+  return {
+    client,
+    link,
+    wsLink,
+    httpLink,
+  };
 }
-
-export const httpLink = new HttpLink({
-  uri: GRAPHQL_ENDPOINT,
-});
-
-if (meteorAccountsLink) {
-  links.push(concat(meteorAccountsLink, httpLink));
-} else {
-  links.push(httpLink);
-}
-
-const link = split(({ query }) => {
-  const { kind, operation } = getMainDefinition(query);
-  return kind === 'OperationDefinition' && operation === 'subscription';
-}, ...links);
-
-export const client = new ApolloClient({
-  link,
-  cache: new InMemoryCache({
-    dataIdFromObject: object => object._id || null,
-  }),
-});
 
 export { Config };

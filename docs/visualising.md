@@ -66,3 +66,7 @@ Meteor.isDevelopment && Config.EXPRESS_MIDDLEWARES.push(cors());
 ```
 
 Now open the html file directly in your browser, and engage in the nice schema view.
+
+---
+
+### [Table of Contents](table-of-contents.md)

@@ -8,8 +8,10 @@ const EMPTY_QUERY_ERROR =
 
 export function getExecutableSchema() {
   try {
+    const { typeDefs, resolvers } = getSchema();
     schema = makeExecutableSchema({
-      ...getSchema(),
+      typeDefs,
+      resolvers,
       schemaDirectives: {
         ...directives,
         ...Config.GRAPHQL_SCHEMA_DIRECTIVES,

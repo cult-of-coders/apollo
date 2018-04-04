@@ -28,10 +28,10 @@ meteor add cultofcoders:apollo
 meteor add swydo:graphql
 ```
 
-Now, if you start your Meteor app it will complain because you don't have any `Query` set up yet, just set up an easy one:
+Let's setup a basic query and initialize our GraphQL server:
 
 ```js
-// file: server/index.js
+// file: server/load.js
 import { load } from 'graphql-load';
 
 load({
@@ -46,6 +46,12 @@ load({
     },
   },
 });
+
+// file: server/index.js
+import { initialize } from 'meteor/cultofcoders:apollo';
+import './load.js';
+
+initialize();
 ```
 
 Now you can safely run your project:
@@ -62,19 +68,9 @@ query {
 }
 ```
 
-## Documentation
+## [Documentation](docs/table-of-contents.md)
 
-### Table of Contents
-
-* [Simple Usage](docs/sample.md)
-* [Work with Database](docs/db.md)
-* [Accounts](docs/accounts.md)
-* [Scalars](docs/scalars.md)
-* [Live Queries](docs/live_queries.md)
-* [Client](docs/client.md)
-* [DDP](docs/ddp.md)
-* [Visualising](docs/visualising.md)
-* [Settings](docs/settings.md)
+[Click here to go to the documentation](docs/table-of-contents.md)
 
 ### Useful packages
 

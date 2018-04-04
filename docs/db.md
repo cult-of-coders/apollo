@@ -55,9 +55,10 @@ https://github.com/cult-of-coders/grapher-schema-directives
 export default {
   Query: {
     posts(_, args, { db }, ast) {
-      // Performantly fetch the query using Grapher
+      // Performantly fetch the query using Grapher (More than 200X faster)
       // You don't need to implement resolvers for your links, it's all done automatically
       // Grapher will only fetch the fields you require
+
       return db.posts.astToQuery(ast).fetch();
       // but you can do whatever you want here since ctx.db.posts is a Mongo.Collection
       // https://docs.meteor.com/api/collections.html
@@ -70,26 +71,6 @@ export default {
       });
     },
     addCommentToPost(_, { postId, text }, { db }) {
-      // You can do this manually, but with Linker Engine from Grapher is nicer because
-      // it makes you not care at all about the stored fields, you only care about the linked name
-      // it takes care of the rest
-      // https://github.com/cult-of-coders/grapher/blob/master/docs/linker_engine.md
-      db.posts.getLink('comments').add({
-        text,
-      });
-
-      // or if you need the comment id:
-      const commentId = db.comments.insert({ text });
-      const commentLink = db.posts.getLink(postId, 'comments');
-      commentLink.add(commentId);
-
-      return commentId;
-
-      // alternatively, from the other side:
-      const commentId = db.comments.insert({ text });
-      db.comments.getLink(commentId, 'post').set(postId);
-
-      // Or just avoid Linker Engine
       const comment = {
         text,
         postId,
@@ -113,8 +94,14 @@ export default {
 };
 ```
 
-Read more about Grapher's GraphQL bridge:
-https://github.com/cult-of-coders/grapher/blob/master/docs/graphql.md
+* [Read more about Grapher](https://github.com/cult-of-coders/grapher)
+* [Read more about Grapher's performance](https://github.com/theodorDiaconu/grapher-performance)
+* [Read more about Grapher Directives](https://github.com/cult-of-coders/grapher-schema-directives)
+* [Read more about Grapher & GraphQL](https://github.com/cult-of-coders/grapher/blob/master/docs/graphql.md)
 
-Read more about advanced functionalities of Collections:
+Read more about advanced functionalities of Collections in Meteor:
 http://www.meteor-tuts.com/chapters/3/persistence-layer.html
+
+---
+
+### [Table of Contents](table-of-contents.md)

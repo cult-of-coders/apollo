@@ -1,8 +1,14 @@
 # Client
 
-Let's play with Apollo, but outside GraphiQL
+This is a quick recipe to get started with Apollo queries and React.
 
 ## React
+
+Let's get our dependencies setup:
+
+```js
+meteor npm i -S react react-apollo react-dom prop-types graphql-tag
+```
 
 ```js
 // in client/main.html
@@ -13,14 +19,14 @@ Let's play with Apollo, but outside GraphiQL
 
 ```js
 // in client/main.js
-import { render } from 'react-dom';
 import React from 'react';
+import { render } from 'react-dom';
 import { ApolloProvider } from 'react-apollo';
 
 import { Meteor } from 'meteor/meteor';
-import { client } from 'meteor/cultofcoders:apollo';
+import { initialize } from 'meteor/cultofcoders:apollo';
 
-import App from 'YOUR_APP';
+const { client } = initialize();
 
 Meteor.startup(() => {
   render(
@@ -30,4 +36,34 @@ Meteor.startup(() => {
     document.getElementById('app')
   );
 });
+
+const QUERY = gql`
+  query {
+    sayHello
+  }
+`;
+
+const App = () => {
+  <Query query={QUERY}>
+    {(data, loading, error) => {
+      return data;
+    }}
+  </Query>;
+};
 ```
+
+## Settings
+
+Initialize accepts as an argument a configuration object:
+
+```js
+initialize({
+  DISABLE_WEBSOCKETS: false;
+})
+```
+
+* [Read more about React Apollo](https://www.apollographql.com/docs/react/)
+
+---
+
+### [Table of Contents](table-of-contents.md)

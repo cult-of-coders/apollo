@@ -1,6 +1,6 @@
 # Settings
 
-The `{ Config }` object:
+When initializing, we accept as an argument a configuration object:
 
 ```js
 {
@@ -47,25 +47,6 @@ The `{ Config }` object:
 }
 ```
 
-Change any value you like by doing:
+---
 
-```js
-// in some startup file on the server
-import { Config } from 'meteor/cultofcoders:apollo';
-
-Object.assign(Config, {
-  ENGINE_API_KEY: Meteor.settings.ENGINE_API_KEY,
-});
-```
-
-Be careful when you want to extend the `CONTEXT`, do not override it, extend it:
-
-```js
-import { Config } from 'meteor/cultofcoders:apollo';
-
-Object.assign(Config.CONTEXT, {
-  services: {
-    User: new UserService(),
-  },
-});
-```
+### [Table of Contents](table-of-contents.md)

@@ -15,3 +15,7 @@ type User {
 ```
 
 The `Date` scalar parses `.toISOString()`, so, when you want to send a date from the client-side, make sure to apply that method to the date.
+
+---
+
+### [Table of Contents](table-of-contents.md)
