@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor';
-
+import { addMockFunctionsToSchema } from 'graphql-tools';
 import { createServer } from './apolloServer';
 import { createSubscriptionServer } from './subcriptionServer';
 import { createEngine } from './engineServer';
@@ -16,6 +16,14 @@ export default function initialize(config = {}) {
   Object.freeze(Config);
 
   const schema = getExecutableSchema();
+
+  if (Config.MOCKING) {
+    addMockFunctionsToSchema({
+      schema,
+      ...Config.MOCKING,
+    });
+  }
+
   const app = createServer({ schema });
 
   if (Config.ENGINE_API_KEY) {

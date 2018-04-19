@@ -18,14 +18,16 @@ export default {
 ```
 
 ```js
-import { Config } from 'meteor/cultofcoders:apollo';
+import { initialize } from 'meteor/cultofcoders:apollo';
 
-Config.USER_DEFAULT_FIELDS: {
-  _id: 1,
-  username: 1,
-  emails: 1,
-  roles: 1,
-},
+initialize({
+  USER_DEFAULT_FIELDS: {
+    _id: 1,
+    username: 1,
+    emails: 1,
+    roles: 1,
+  }
+}),
 ```
 
 `userId` works with your client and with `/graphiql` because the `Meteor.loginToken` is stored in `localStorage` and it's on the same domain, making very easy for you to test your queries and mutations.
@@ -37,6 +39,8 @@ meteor add accounts-password
 meteor npm i -S bcrypt
 meteor add cultofcoders:apollo-accounts
 ```
+
+Make sure you have a type called `User` already defined and loaded, otherwise it will fail.
 
 ```js
 // file: /server/accounts.js

@@ -44,6 +44,14 @@ When initializing, we accept as an argument a configuration object:
     emails: 1,
     roles: 1,
   },
+
+  // OPTIONS TO ADD ADDITIONAL MOCKING
+  // By default this is null
+  // Read more: https://www.apollographql.com/docs/graphql-tools/mocking.html
+  MOCKING: {
+    mocks: {},
+    preserveResolvers: false,
+  }
 }
 ```
 
