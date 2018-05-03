@@ -1,12 +1,12 @@
 import { makeExecutableSchema } from 'graphql-tools';
-import { load, getSchema } from 'graphql-load';
+import { load, getSchema as defaultGetSchema } from 'graphql-load';
 import Config from './config';
 import directives from './directives';
 
 const EMPTY_QUERY_ERROR =
   'Error: Specified query type "Query" not found in document.';
 
-export function getExecutableSchema() {
+export function getExecutableSchema(getSchema = defaultGetSchema) {
   try {
     const { typeDefs, resolvers } = getSchema();
     schema = makeExecutableSchema({
