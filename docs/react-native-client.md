@@ -18,10 +18,11 @@ Things mostly should just work out of the box for a react-native client. Make su
 
 If you don't use redux, install apollo-cache-inmemory instead of apollo-cache-redux, or any other cache implementation.
 
-There are, however, a couple of things to keep in mind:
+There are, however, a few things to keep in mind:
 
 * Authentication token is usually stored in AsyncStorage, and retrieval of the token is an asynchronous process.
 * The authorization header needs to set up appropriately for both http links and websocket links.
+* Some polyfills are needed
 
 Since retrieval of the token is an asynchronous process, care must be taken to set it up appropriately for your http and websocket links. Let us first create a function to retrieve the token from AsyncStorage as a promise:
 
@@ -153,6 +154,7 @@ This needs to be done at an appropraiate place, such when your client receives a
 
 ```js
 import { loginWithPassword, onTokenChange, setTokenStore } from "meteor-apollo-accounts";
+import { getMainDefinition } from "apollo-utilities";
 
 const AUTH_TOKEN_KEY = "meteor-login-token";
 const AUTH_TOKEN_LOCALSTORAGE = "Meteor.loginToken";

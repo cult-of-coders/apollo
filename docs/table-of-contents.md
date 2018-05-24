@@ -13,4 +13,4 @@ and doing a PR to fix it. Thank you!
 * [8. Visualising](visualising.md)
 * [9. Settings](settings.md)
 *[10. React-Native Client Considerations](react-native-client.md)
-*[11. Meteor Connectivty Simulation](meteor-simulation.md)
+*[11. Meteor Connectivty Simulation](meteor-connectivity.md)
