@@ -31,7 +31,8 @@ meteor add swydo:graphql
 Let's setup a basic query and initialize our GraphQL server:
 
 ```js
-// file: server/load.js
+// file: server/main.js
+import { initialize } from 'meteor/cultofcoders:apollo';
 import { load } from 'graphql-load';
 
 load({
@@ -46,10 +47,6 @@ load({
     },
   },
 });
-
-// file: server/index.js
-import { initialize } from 'meteor/cultofcoders:apollo';
-import './load.js';
 
 initialize();
 ```
