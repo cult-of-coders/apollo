@@ -3,7 +3,7 @@
 Various ways to visualise your GraphQL Schema with ease:
 
 ```
-graphqlviz https://localhost:3000 | dot -Tpng -o graph.png
+graphqlviz https://localhost:3000/graphql | dot -Tpng -o graph.png
 ```
 
 ## Graphqlviz
