@@ -2,9 +2,9 @@
 
 You can use Grapher to define your links in your types, for rapid prototyping:
 
-* [Read more about Grapher](https://github.com/cult-of-coders/grapher)
-* [Read more about Grapher Directives](https://github.com/cult-of-coders/grapher-schema-directives)
-* [Read more about Grapher & GraphQL](https://github.com/cult-of-coders/grapher/blob/master/docs/graphql.md)
+- [Read more about Grapher](https://github.com/cult-of-coders/grapher)
+- [Read more about Grapher Directives](https://github.com/cult-of-coders/grapher-schema-directives)
+- [Read more about Grapher & GraphQL](https://github.com/cult-of-coders/grapher/blob/master/docs/graphql.md)
 
 ## Sample
 
@@ -37,4 +37,4 @@ export default {
 
 ---
 
-### [Table of Contents](table-of-contents.md)
+### [Table of Contents](index.md)

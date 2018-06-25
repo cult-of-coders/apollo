@@ -39,12 +39,12 @@ type Group @mongo(name: "groups") {
 
 Above we have the following relationships:
 
-* Post has one Author and it's stored in `authorId`
-* Post has many Comments and is linked to the `post` link
-* Comment is linked to a post, and that is stored in `postId`
-* Author has many Posts and is linked to the `author` link
-* Author belongs to many Groups and it's stored in `groupIds`
-* Groups have many Authors and is linked to `groups` link
+- Post has one Author and it's stored in `authorId`
+- Post has many Comments and is linked to the `post` link
+- Comment is linked to a post, and that is stored in `postId`
+- Author has many Posts and is linked to the `author` link
+- Author belongs to many Groups and it's stored in `groupIds`
+- Groups have many Authors and is linked to `groups` link
 
 And the beautiful part is that for prototyping this is so fast, because we inject the db inside our context:
 
@@ -94,14 +94,14 @@ export default {
 };
 ```
 
-* [Read more about Grapher](https://github.com/cult-of-coders/grapher)
-* [Read more about Grapher's performance](https://github.com/theodorDiaconu/grapher-performance)
-* [Read more about Grapher Directives](https://github.com/cult-of-coders/grapher-schema-directives)
-* [Read more about Grapher & GraphQL](https://github.com/cult-of-coders/grapher/blob/master/docs/graphql.md)
+- [Read more about Grapher](https://github.com/cult-of-coders/grapher)
+- [Read more about Grapher's performance](https://github.com/theodorDiaconu/grapher-performance)
+- [Read more about Grapher Directives](https://github.com/cult-of-coders/grapher-schema-directives)
+- [Read more about Grapher & GraphQL](https://github.com/cult-of-coders/grapher/blob/master/docs/graphql.md)
 
 Read more about advanced functionalities of Collections in Meteor:
 http://www.meteor-tuts.com/chapters/3/persistence-layer.html
 
 ---
 
-### [Table of Contents](table-of-contents.md)
+### [Table of Contents](index.md)

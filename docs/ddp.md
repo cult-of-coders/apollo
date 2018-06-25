@@ -25,4 +25,4 @@ The logic here is that you can use `fusion`, and when your app wants to scale an
 
 ---
 
-### [Table of Contents](table-of-contents.md)
+### [Table of Contents](index.md)

@@ -149,4 +149,4 @@ load({
 
 ---
 
-### [Table of Contents](table-of-contents.md)
+### [Table of Contents](index.md)
