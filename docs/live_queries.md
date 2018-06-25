@@ -8,12 +8,13 @@ This package comes already with the [apollo-live-server](https://www.npmjs.com/p
 
 ```js
 type Subscription {
-  users: ReactiveEventUser
+  users: SubscriptionEvent
 }
 
-type ReactiveEventUser {
+// Subscription event is loaded automatically by this package and looks like this:
+type SubscriptionEvent {
   event: String,
-  doc: User
+  doc: JSON
 }
 ```
 
@@ -36,6 +37,12 @@ export default {
 }
 ```
 
+Find out more: https://www.npmjs.com/package/apollo-live-server
+
+## Client usage:
+
+Please refer to the documentation here: https://github.com/cult-of-coders/apollo-live-client
+
 ## Simulate reactivity
 
 ```js
@@ -53,7 +60,7 @@ Meteor.setInterval(function() {
 }, 2000);
 ```
 
-You can now test your query inside GraphiQL:
+You can now test your query inside GraphiQL, to see how easily it reacts to changes:
 
 ```js
 subscription {
@@ -66,4 +73,4 @@ subscription {
 
 ---
 
-### [Table of Contents](table-of-contents.md)
+### [Table of Contents](index.md)

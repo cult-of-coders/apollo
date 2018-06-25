@@ -62,8 +62,8 @@ initialize({
 })
 ```
 
-* [Read more about React Apollo](https://www.apollographql.com/docs/react/)
+- [Read more about React Apollo](https://www.apollographql.com/docs/react/)
 
 ---
 
-### [Table of Contents](table-of-contents.md)
+### [Table of Contents](index.md)

@@ -2,13 +2,13 @@
 
 Features:
 
-* Plug and Play Zero-Config GraphQL Server
-* GraphiQL + Subscription Support
-* Apollo Live Features (Reactive Scalable Queries)
-* MongoDB Tailored
-* Date and JSON scalars
-* HTTP and Subscription built-in Authentication (+ GraphiQL Authentication Support)
-* Meteor Accounts (Plug & Play)
+- Plug and Play Zero-Config GraphQL Server
+- GraphiQL + Subscription Support
+- Apollo Live Features (Reactive Scalable Queries)
+- MongoDB Tailored
+- Date and JSON scalars
+- HTTP and Subscription built-in Authentication (+ GraphiQL Authentication Support)
+- Meteor Accounts (Plug & Play)
 
 ## Install
 
@@ -19,7 +19,7 @@ meteor create --bare graphql-baby
 cd graphql-baby
 
 # Now we install our npm dependencies
-meteor npm i -S graphql graphql-load subscriptions-transport-ws apollo-live-server apollo-live-client apollo-client apollo-cache-inmemory apollo-link apollo-link-http apollo-link-ws express apollo-server-express uuid graphql-subscriptions body-parser graphql-tools graphql-type-json
+meteor npm i -S graphql graphql-load subscriptions-transport-ws apollo-live-server apollo-live-client apollo-client apollo-cache-inmemory apollo-link apollo-link-http apollo-link-ws express apollo-server-express uuid graphql-subscriptions body-parser graphql-tools graphql-type-json apollo-morpher
 
 # Now we add the package
 meteor add cultofcoders:apollo
@@ -65,14 +65,14 @@ query {
 }
 ```
 
-## [Documentation](docs/table-of-contents.md)
+## [Documentation](docs/index.md)
 
-[Click here to go to the documentation](docs/table-of-contents.md)
+[Click here to go to the documentation](docs/index.md)
 
 ### Useful packages
 
-* [graphql-load](https://www.npmjs.com/package/graphql-load?activeTab=readme)
-* [disable-introspection](https://github.com/helfer/graphql-disable-introspection)
+- [graphql-load](https://www.npmjs.com/package/graphql-load?activeTab=readme)
+- [disable-introspection](https://github.com/helfer/graphql-disable-introspection)
 
 ## Premium Support
 
