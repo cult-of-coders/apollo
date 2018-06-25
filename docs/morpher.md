@@ -18,6 +18,8 @@ expose({
   users: {
     type: 'User'
     collection: () => collection,
+    // In the mutation methods you can perform propper checks, you get access to the context
+    // You have ability to extract use from ctx `ctx.userId` or `ctx.user`
     update: (ctx, {selector, modifier, modifiedFields, modifiedTopLevelFields}) => true,
     insert: (ctx, {document}) => true,
     remove: (ctx, {selector}) => true,
@@ -41,6 +43,7 @@ expose({
         $filters: params.filters,
         $options: params.options
       }
+    }
   }
 })
 ```
