@@ -65,9 +65,9 @@ query {
 }
 ```
 
-## [Documentation](docs/table-of-contents.md)
+## [Documentation](docs/index.md)
 
-[Click here to go to the documentation](docs/table-of-contents.md)
+[Click here to go to the documentation](docs/index.md)
 
 ### Useful packages
 
