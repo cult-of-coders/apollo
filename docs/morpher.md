@@ -84,6 +84,12 @@ db.users
 db.users.findOne(fields, {
   filters: { _id: 'XXX' },
 });
+
+// and for pagination purposes to retrieve the count
+db.users.count({
+  filters,
+  options,
+});
 ```
 
 ---
