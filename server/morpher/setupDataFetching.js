@@ -1,5 +1,3 @@
-import { asyncIterator, astToFields, Event } from 'apollo-live-server';
-
 export default function setupDataFetching(config, name, type, collection) {
   let Query = {};
   let QueryType = ``;
@@ -24,7 +22,7 @@ export default function setupDataFetching(config, name, type, collection) {
         params
       );
 
-      let astToQueryOptions = config.find.call(null, ctx, params, ctx, ast);
+      let astToQueryOptions = config.find.call(null, ctx, params, ast);
       if (astToQueryOptions === false) {
         throw new Error('Unauthorized');
       }
