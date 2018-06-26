@@ -40,19 +40,21 @@ function exposeSingle(name, config) {
 
   let modules = [];
 
-  let { MutationType, Mutation } = setupMutations(
-    config,
-    name,
-    type,
-    collection
-  );
+  if (config.insert || config.update || config.remove) {
+    let { MutationType, Mutation } = setupMutations(
+      config,
+      name,
+      type,
+      collection
+    );
 
-  MutationType = `type Mutation { ${MutationType} }`;
+    MutationType = `type Mutation { ${MutationType} }`;
 
-  modules.push({
-    typeDefs: MutationType,
-    resolvers: { Mutation },
-  });
+    modules.push({
+      typeDefs: MutationType,
+      resolvers: { Mutation },
+    });
+  }
 
   if (config.find) {
     let { QueryType, Query } = setupDataFetching(
