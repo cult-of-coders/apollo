@@ -107,4 +107,28 @@ describe('Morpher', () => {
 
     assert.equal(2, count);
   });
+
+  it('Should work with options', async () => {
+    await db.users.remove({
+      firstName: 'JohnOptionable',
+    });
+
+    const d1 = await db.users.insert({
+      firstName: 'JohnOptionable',
+    });
+    const d2 = await db.users.insert({
+      firstName: 'JohnOptionable',
+    });
+
+    const results = await db.users.find(`firstName`, {
+      filters: {
+        firstName: 'JohnOptionable',
+      },
+      options: {
+        limit: 1,
+      },
+    });
+
+    assert.equal(1, results.length);
+  });
 });
