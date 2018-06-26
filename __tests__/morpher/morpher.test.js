@@ -86,4 +86,25 @@ describe('Morpher', () => {
     assert.equal('John', user.firstName);
     assert.equal('Smith', user.lastName);
   });
+
+  it('Should work with count()', async () => {
+    await db.users.remove({
+      firstName: 'JohnCountable',
+    });
+
+    const d1 = await db.users.insert({
+      firstName: 'JohnCountable',
+    });
+    const d2 = await db.users.insert({
+      firstName: 'JohnCountable',
+    });
+
+    const count = await db.users.count({
+      filters: {
+        firstName: 'JohnCountable',
+      },
+    });
+
+    assert.equal(2, count);
+  });
 });
