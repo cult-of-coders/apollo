@@ -14,6 +14,7 @@ let Config = {
   GRAPHQL_SCHEMA_DIRECTIVES: {},
   EXPRESS_MIDDLEWARES: [],
   MOCKING: null,
+  LOADER: null,
 };
 
 export default Config;

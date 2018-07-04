@@ -15,7 +15,11 @@ export default function initialize(config = {}) {
 
   Object.freeze(Config);
 
-  const schema = getExecutableSchema();
+  const schema = getExecutableSchema(
+    Config.LOADER && Config.LOADER.getSchema
+      ? Config.LOADER.getSchema.bind(Config.LOADER)
+      : undefined
+  );
 
   if (Config.MOCKING) {
     addMockFunctionsToSchema({

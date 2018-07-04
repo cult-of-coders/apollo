@@ -125,6 +125,8 @@ export const createApolloServer = (customOptions = {}, customConfig = {}) => {
       })
     );
   }
+  // this removes all handlers
+  WebApp.connectHandlers.stack = [];
   // this binds the specified paths to the Express server running Apollo + GraphiQL
   WebApp.connectHandlers.use(graphQLServer);
 
