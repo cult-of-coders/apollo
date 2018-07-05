@@ -12,7 +12,7 @@ Features:
 
 ## Install
 
-If you do not Meteor up and running, [install it from here](https://www.meteor.com/install)
+If you do not have Meteor up and running, [install it from here](https://www.meteor.com/install)
 
 ```bash
 meteor create --bare graphql-baby
