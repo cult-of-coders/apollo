@@ -1,10 +1,13 @@
 import { Meteor } from 'meteor/meteor';
-import { addMockFunctionsToSchema } from 'graphql-tools';
-import { createServer } from './apolloServer';
-import { createSubscriptionServer } from './subcriptionServer';
-import { createEngine } from './engineServer';
-import { getExecutableSchema } from './schema';
 import { db } from 'meteor/cultofcoders:grapher';
+import { WebApp } from 'meteor/webapp';
+
+import { addMockFunctionsToSchema } from 'graphql-tools';
+import { ApolloServer } from 'apollo-server-express';
+
+import { AUTH_TOKEN_KEY } from '../constants';
+import { getExecutableSchema } from './schema';
+import { getUserForContext } from './core/users';
 import Config from './config';
 
 export default function initialize(config = {}) {
@@ -14,6 +17,7 @@ export default function initialize(config = {}) {
   });
 
   Object.freeze(Config);
+  Object.freeze(Config.CONTEXT);
 
   const schema = getExecutableSchema();
 
@@ -24,17 +28,81 @@ export default function initialize(config = {}) {
     });
   }
 
-  const app = createServer({ schema });
+  let apolloConfig = {
+    schema,
+    introspection: Meteor.isDevelopment,
+    debug: Meteor.isDevelopment,
+    path: '/graphql',
+    // gui: {},
+    // error formatting
+    formatError: e => ({
+      message: e.message,
+      locations: e.locations,
+      path: e.path,
+    }),
+    context: getContext,
+    subscriptions: getSubscriptionConfig(),
+  };
 
   if (Config.ENGINE_API_KEY) {
-    createEngine({
-      expressApp: app,
+    apolloConfig.engine = {
       apiKey: Config.ENGINE_API_KEY,
-      port: Config.ENGINE_PORT,
-    });
+    };
   }
 
-  if (!Config.DISABLE_SUBSCRIPTIONS) {
-    createSubscriptionServer({ schema });
+  const server = new ApolloServer(apolloConfig);
+
+  server.applyMiddleware({
+    app: WebApp.connectHandlers,
+  });
+
+  server.installSubscriptionHandlers(WebApp.httpServer);
+
+  // We are doing this work-around because Playground sets headers and WebApp also sets headers
+  // Resulting into a conflict and a server side exception of "Headers already sent"
+  WebApp.connectHandlers.use('/graphql', (req, res) => {
+    if (req.method === 'GET') {
+      res.end();
+    }
+  });
+}
+
+async function getContext({ req, connection }) {
+  if (connection) {
+    console.log('Context for connection', connection);
+    return {
+      ...Config.CONTEXT,
+    };
+  } else {
+    console.log('Context for req');
+    let userContext = {};
+    if (Package['accounts-base']) {
+      const loginToken = req.headers['meteor-login-token'];
+      userContext = await getUserForContext(loginToken);
+    }
+
+    return {
+      ...Config.CONTEXT,
+      ...userContext,
+    };
   }
+}
+
+function getSubscriptionConfig() {
+  return {
+    onConnect: async (connectionParams, webSocket, context) => {
+      const loginToken = connectionParams[AUTH_TOKEN_KEY];
+
+      if (loginToken) {
+        const userContext = await getUserForContext(loginToken);
+
+        return {
+          ...Config.CONTEXT,
+          ...userContext,
+        };
+      } else {
+        return Config.CONTEXT;
+      }
+    },
+  };
 }

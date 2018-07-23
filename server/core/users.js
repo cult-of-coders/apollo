@@ -51,17 +51,3 @@ export const getUserForContext = async loginToken => {
 
   return {};
 };
-
-// take the existing context and return a new extended context with the current
-// user if relevant (i.e. valid login token)
-export const addCurrentUserToContext = async (context, loginToken) => {
-  if (!Package['accounts-base']) {
-    return { ...context };
-  }
-
-  const userContext = await getUserForContext(loginToken);
-  return {
-    ...context,
-    ...userContext,
-  };
-};

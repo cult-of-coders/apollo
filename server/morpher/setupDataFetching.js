@@ -4,13 +4,13 @@ export default function setupDataFetching(config, name, type, collection) {
   let Subscription = {};
   let SubscriptionType = ``;
 
-  QueryType += `${name}(params: JSON!): [${type}]!` + '\n';
-  QueryType += `${name}Count(params:JSON!): Int!` + '\n';
-  QueryType += `${name}Single(params: JSON!): ${type}`;
+  QueryType += `${name}(params: JSON): [${type}]!` + '\n';
+  QueryType += `${name}Count(params:JSON): Int!` + '\n';
+  QueryType += `${name}Single(params: JSON): ${type}`;
 
   // We are creating the function here because we are re-using it for Single ones
 
-  const resolveSelectors = (_, { params }, ctx, ast) => {
+  const resolveSelectors = (_, { params = {} }, ctx, ast) => {
     let astToQueryOptions;
 
     if (typeof config.find === 'function') {
@@ -38,7 +38,7 @@ export default function setupDataFetching(config, name, type, collection) {
     return astToQueryOptions;
   };
 
-  const fn = (_, { params }, ctx, ast) => {
+  const fn = (_, { params = {} }, ctx, ast) => {
     const astToQueryOptions = resolveSelectors(_, { params }, ctx, ast);
 
     return collection()
@@ -48,7 +48,7 @@ export default function setupDataFetching(config, name, type, collection) {
 
   Query = {
     [name]: fn,
-    [name + 'Count'](_, { params }, ctx, ast) {
+    [name + 'Count'](_, { params = {} }, ctx, ast) {
       const astToQueryOptions = resolveSelectors(_, { params }, ctx, ast);
 
       return collection()
