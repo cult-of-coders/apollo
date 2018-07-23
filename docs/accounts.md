@@ -36,7 +36,7 @@ Adding accounts to your GraphQL Schema:
 
 ```
 meteor add accounts-password
-meteor npm i -S bcrypt
+meteor npm i -S bcrypt meteor-apollo-accounts
 meteor add cultofcoders:apollo-accounts
 ```
 

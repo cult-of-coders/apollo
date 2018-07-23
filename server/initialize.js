@@ -9,6 +9,7 @@ import { AUTH_TOKEN_KEY } from '../constants';
 import { getExecutableSchema } from './schema';
 import { getUserForContext } from './core/users';
 import Config from './config';
+import { resolve } from 'path';
 
 export default function initialize(config = {}) {
   Object.assign(Config, config);
@@ -69,12 +70,11 @@ export default function initialize(config = {}) {
 
 async function getContext({ req, connection }) {
   if (connection) {
-    console.log('Context for connection', connection);
     return {
       ...Config.CONTEXT,
+      ...connection.context,
     };
   } else {
-    console.log('Context for req');
     let userContext = {};
     if (Package['accounts-base']) {
       const loginToken = req.headers['meteor-login-token'];
@@ -93,16 +93,17 @@ function getSubscriptionConfig() {
     onConnect: async (connectionParams, webSocket, context) => {
       const loginToken = connectionParams[AUTH_TOKEN_KEY];
 
-      if (loginToken) {
-        const userContext = await getUserForContext(loginToken);
-
-        return {
-          ...Config.CONTEXT,
-          ...userContext,
-        };
-      } else {
-        return Config.CONTEXT;
-      }
+      return new Promise((resolve, reject) => {
+        if (loginToken) {
+          const userContext = getUserForContext(loginToken).then(
+            userContext => {
+              resolve(userContext);
+            }
+          );
+        } else {
+          resolve({});
+        }
+      });
     },
   };
 }

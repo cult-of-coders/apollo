@@ -1,1 +1,2 @@
-import './morpher/morpher.test';
+import './morpher/client';
+import './accounts/client';

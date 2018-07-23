@@ -1,4 +1,8 @@
 import { load } from 'meteor/cultofcoders:apollo';
-import { typeDefs } from './module';
+import MorpherModule from './morpher';
+import AccountsModule from './accounts';
 
-load({ typeDefs });
+load([
+  AccountsModule,
+  MorpherModule
+]);
