@@ -3,7 +3,7 @@
 ```js
 import { initialize } from 'meteor/cultofcoders:apollo';
 
-initialize(ApolloConstructorOptions, MeteorApolloOptions);
+initialize(ApolloConstructorOptions?, MeteorApolloOptions?);
 ```
 
 `ApolloConstructorOptions`
