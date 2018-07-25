@@ -1,6 +1,6 @@
 Package.describe({
   name: 'cultofcoders:apollo',
-  version: '0.4.2',
+  version: '0.5.0',
   // Brief, one-line summary of the package.
   summary: 'Meteor & Apollo integration',
   // URL to the Git repository containing the source code for this package.
