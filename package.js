@@ -15,8 +15,9 @@ Package.onUse(function(api) {
   api.use('ecmascript');
   api.use('check');
   api.use('mongo');
+  api.use('tmeasday:check-npm-versions@0.3.2');
   api.use('swydo:graphql@0.4.0');
-  api.use('cultofcoders:grapher@1.3.6');
+  api.use('cultofcoders:grapher@1.3.7_1');
   api.use('cultofcoders:grapher-schema-directives@0.1.4');
   api.use('accounts-base', { weak: true });
 

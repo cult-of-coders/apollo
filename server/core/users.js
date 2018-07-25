@@ -3,7 +3,7 @@ import Config from '../config';
 
 const { Accounts } = Package['accounts-base'];
 
-export const getUserForContext = async loginToken => {
+export const getUserForContext = async (loginToken, userDefaultFields) => {
   // there is a possible current user connected!
   if (loginToken) {
     // throw an error if the token is not a string
@@ -20,7 +20,7 @@ export const getUserForContext = async loginToken => {
         'services.resume.loginTokens.hashedToken': hashedToken,
       },
       {
-        ...Config.USER_DEFAULT_FIELDS,
+        ...userDefaultFields,
         'services.resume.loginTokens': 1,
       }
     );
