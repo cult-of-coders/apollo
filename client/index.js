@@ -61,8 +61,10 @@ export function initialize(config = {}) {
     return kind === 'OperationDefinition' && operation === 'subscription';
   }, ...links);
 
+  let transformedLink = Config.getLink(link);
+
   const client = new ApolloClient({
-    link,
+    transformedLink,
     cache: new InMemoryCache({
       dataIdFromObject: object => object._id || null,
     }),

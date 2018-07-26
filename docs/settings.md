@@ -6,19 +6,37 @@ import { initialize } from 'meteor/cultofcoders:apollo';
 initialize(ApolloConstructorOptions?, MeteorApolloOptions?);
 ```
 
+#### Quick Tip: [Engine](https://engine.apollographql.com/)
+
+If you want to use engine GraphQL monitoring tool:
+
+```js
+initialize({
+  engine: {
+    apiKey: 'XXX',
+  },
+});
+```
+
 `ApolloConstructorOptions`
 https://www.apollographql.com/docs/apollo-server/api/apollo-server.html#constructor-options-lt-ApolloServer-gt
+
+If you want to override context by apollo options, you have to be careful, that you may loose authentication and other injected things by the Meteor package.
 
 `MeteorApolloOptions`
 
 ```js
-{
+initialize({}, {
   // Context that is going to be passed to resolvers
-  // By default we inject { db } from cultofcoders:grapher package
+  // By default we inject { db } from 'meteor/cultofcoders:grapher' package
   // If you override this to include other context information, make sure to include that as well
   context: {
     db // Access to database context via Grapher
   },
+
+  // This is just an example, you have cors built in ApolloOptions
+  // You can also add other connect middlewares to '/graphql' endpoint
+  middlewares: [],
 
   // GUI, because we're using an express middleware to connect with our WebApp, gui configuration is done at that level
   // So basically the `gui` config from `ApolloConstructorOptions` will be ignored
@@ -34,7 +52,7 @@ https://www.apollographql.com/docs/apollo-server/api/apollo-server.html#construc
     emails: 1,
     roles: 1,
   },
-}
+});
 ```
 
 ---

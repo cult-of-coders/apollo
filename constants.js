@@ -8,4 +8,7 @@ export const GRAPHQL_SUBSCRIPTION_ENDPOINT = Meteor.absoluteUrl(
   GRAPHQL_SUBSCRIPTION_PATH
 ).replace(/http/, 'ws');
 
-export const GRAPHQL_ENDPOINT = Meteor.absoluteUrl('/graphql');
+export const GRAPHQL_ENDPOINT = Meteor.absoluteUrl('/graphql').replace(
+  '//graphql',
+  '/graphql'
+);

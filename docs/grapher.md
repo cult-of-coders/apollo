@@ -14,9 +14,23 @@ type Comment @mongo(name: "comments") {
   text: String
   userId: String!
   user: User @link(field: "userId")
-  postId: String
+  postId: String!
   post: Post @link(field: "postId")
   createdAt: Date
+}
+
+type User @mongo(name: "users") {
+  _id: ID!
+  username: String!
+  comments: [Comment] @link(to: "user")
+  posts: [Post] @link(to: "author")
+}
+
+type Post @mongo(name: "posts") {
+  _id: ID!
+  title: String!
+  authorId: String!
+  author: User @link(field: "userId")
 }
 ```
 
@@ -34,6 +48,9 @@ export default {
   },
 };
 ```
+
+Read about `astToQuery` options:
+https://github.com/cult-of-coders/grapher/blob/master/docs/graphql.md
 
 ---
 

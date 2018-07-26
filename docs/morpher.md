@@ -78,18 +78,22 @@ db.users
     filters: {},
     options: {},
   })
-  .then(result => {});
+  .then(users => {});
 
 // find equivallent .findOne()
-db.users.findOne(fields, {
-  filters: { _id: 'XXX' },
-});
+db.users
+  .findOne(fields, {
+    filters: { _id: 'XXX' },
+  })
+  .then(user => {});
 
 // and for pagination purposes to retrieve the count
-db.users.count({
-  filters,
-  options,
-});
+db.users
+  .count({
+    filters,
+    options,
+  })
+  .then(count => {});
 ```
 
 ---

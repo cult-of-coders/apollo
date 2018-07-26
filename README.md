@@ -3,12 +3,11 @@
 Features:
 
 - Plug and Play Zero-Config GraphQL Server
-- GraphiQL + Subscription Support
-- Apollo Live Features (Reactive Scalable Queries)
-- MongoDB Tailored
+- GraphQL Playground + Subscription Support
+- Live Queries (Reactive Scalable Queries)
+- Built-in [Grapher](https://github.com/cult-of-coders/grapher) Support
 - Date and JSON scalars
-- HTTP and Subscription built-in Authentication (+ GraphiQL Authentication Support)
-- Meteor Accounts (Plug & Play)
+- HTTP & Subscription authentication support with Meteor Accounts
 
 ## Install
 
