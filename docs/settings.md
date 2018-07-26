@@ -4,9 +4,12 @@
 import { initialize } from 'meteor/cultofcoders:apollo';
 
 initialize(ApolloConstructorOptions?, MeteorApolloOptions?);
+
+// quickest way:
+initialize();
 ```
 
-#### Quick Tip: [Engine](https://engine.apollographql.com/)
+## Quick Tip: [Engine](https://engine.apollographql.com/)
 
 If you want to use engine GraphQL monitoring tool:
 
@@ -18,12 +21,13 @@ initialize({
 });
 ```
 
-`ApolloConstructorOptions`
+## `ApolloConstructorOptions`
+
 https://www.apollographql.com/docs/apollo-server/api/apollo-server.html#constructor-options-lt-ApolloServer-gt
 
-If you want to override context by apollo options, you have to be careful, that you may loose authentication and other injected things by the Meteor package.
+Do not override `schema` and `context`, use `graphql-load` and `MeteorApolloOptions` for that.
 
-`MeteorApolloOptions`
+## `MeteorApolloOptions`
 
 ```js
 initialize({}, {

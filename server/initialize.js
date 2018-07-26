@@ -17,7 +17,23 @@ import { resolve } from 'path';
  * @param {MeteorApolloConfig} meteorApolloConfig
  */
 export default function initialize(apolloConfig = {}, meteorApolloConfig = {}) {
-  const schema = getExecutableSchema();
+  meteorApolloConfig = Object.assign(
+    {
+      gui: Meteor.isDevelopment,
+      middlewares: [],
+      schemaDirectives: [],
+      context: { db },
+      userDefaultFields: {
+        _id: 1,
+        roles: 1,
+        username: 1,
+        emails: 1,
+      },
+    },
+    meteorApolloConfig
+  );
+
+  const schema = getExecutableSchema(meteorApolloConfig);
 
   apolloConfig = Object.assign(
     {
@@ -34,21 +50,6 @@ export default function initialize(apolloConfig = {}, meteorApolloConfig = {}) {
       subscriptions: getSubscriptionConfig(),
     },
     apolloConfig
-  );
-
-  meteorApolloConfig = Object.assign(
-    {
-      gui: Meteor.isDevelopment,
-      middlewares: [],
-      context: { db },
-      userDefaultFields: {
-        _id: 1,
-        roles: 1,
-        username: 1,
-        emails: 1,
-      },
-    },
-    meteorApolloConfig
   );
 
   const server = new ApolloServer(apolloConfig);

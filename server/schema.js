@@ -6,7 +6,7 @@ import directives from './directives';
 const EMPTY_QUERY_ERROR =
   'Error: Specified query type "Query" not found in document.';
 
-export function getExecutableSchema() {
+export function getExecutableSchema(meteorApolloOptions) {
   try {
     const { typeDefs, resolvers } = getSchema();
     schema = makeExecutableSchema({
@@ -14,7 +14,7 @@ export function getExecutableSchema() {
       resolvers,
       schemaDirectives: {
         ...directives,
-        ...Config.GRAPHQL_SCHEMA_DIRECTIVES,
+        ...meteorApolloOptions.schemaDirectives,
       },
     });
   } catch (error) {
