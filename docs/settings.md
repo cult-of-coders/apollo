@@ -46,6 +46,9 @@ initialize({}, {
   // So basically the `gui` config from `ApolloConstructorOptions` will be ignored
   gui: Meteor.isDevelopment
 
+  // Load custom schema directives that you want to use
+  schemaDirectives: []
+
   // Because we support authentication by default
   // We inject { user, userId } into the context
   // These fields represent what fields to retrieve from the logged in user on every request

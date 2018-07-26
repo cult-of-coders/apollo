@@ -20,11 +20,11 @@ export default {
 ```js
 import { initialize } from 'meteor/cultofcoders:apollo';
 
-initialize({
-  USER_DEFAULT_FIELDS: {
+initialize({}, {
+  // You can configure your default fields to fetch on GraphQL request
+  // This works with Subscription onConnect()
+  userDefaultFields: {
     _id: 1,
-    username: 1,
-    emails: 1,
     roles: 1,
   }
 }),
@@ -82,6 +82,8 @@ localStorage.setItem('Meteor.loginToken', token); // the one you received from t
 Create a quick `me` query:
 
 ```js
+import { load } from 'meteor/cultofcoders:apollo';
+
 const typeDefs = `
   type Query {
     me: User
@@ -96,7 +98,10 @@ const resolvers = {
   },
 };
 
-export { typeDefs, resolvers };
+load({
+  typeDefs,
+  resolvers,
+});
 ```
 
 And try it out:
@@ -112,9 +117,12 @@ query {
 And also register the proper clear-outs for live subscription authentication:
 
 ```js
-// file: client/accounts.js
+// file: client/main.js
+import { initialize } from 'meteor/cultofcoders:apollo';
 import { onTokenChange } from 'meteor-apollo-accounts';
-import { wsLink, client } from 'meteor/cultofcoders:apollo';
+
+// Preferably you instantiate it in a different place
+const { client, wsLink } = initialize();
 
 onTokenChange(function() {
   client.resetStore();
