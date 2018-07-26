@@ -3,12 +3,11 @@
 Features:
 
 - Plug and Play Zero-Config GraphQL Server
-- GraphiQL + Subscription Support
-- Apollo Live Features (Reactive Scalable Queries)
-- MongoDB Tailored
+- GraphQL Playground + Subscription Support
+- Live Queries (Reactive Scalable Queries)
+- Built-in [Grapher](https://github.com/cult-of-coders/grapher) Support
 - Date and JSON scalars
-- HTTP and Subscription built-in Authentication (+ GraphiQL Authentication Support)
-- Meteor Accounts (Plug & Play)
+- HTTP & Subscription authentication support with Meteor Accounts
 
 ## Install
 
@@ -18,8 +17,11 @@ If you do not Meteor up and running, [install it from here](https://www.meteor.c
 meteor create --bare graphql-baby
 cd graphql-baby
 
-# Now we install our npm dependencies
-meteor npm i -S graphql graphql-load subscriptions-transport-ws apollo-live-server apollo-live-client apollo-client apollo-cache-inmemory apollo-link apollo-link-http apollo-link-ws express apollo-server-express uuid graphql-subscriptions body-parser graphql-tools graphql-type-json apollo-morpher
+# Now we install our npm dependencies for server
+meteor npm i -S graphql graphql-load apollo-server-express uuid graphql-tools graphql-type-json apollo-live-server
+
+# Dependencies for the client
+meteor npm i -S apollo-live-client apollo-client apollo-cache-inmemory apollo-link apollo-link-http apollo-link-ws apollo-morpher subscriptions-transport-ws
 
 # Now we add the package
 meteor add cultofcoders:apollo
@@ -57,7 +59,7 @@ Now you can safely run your project:
 meteor run
 ```
 
-Now get on your browser and go to: http://localhost:3000/graphiql and give it a spin:
+Now get on your browser and go to: http://localhost:3000/graphql and give it a spin:
 
 ```js
 query {
@@ -72,7 +74,6 @@ query {
 ### Useful packages
 
 - [graphql-load](https://www.npmjs.com/package/graphql-load?activeTab=readme)
-- [disable-introspection](https://github.com/helfer/graphql-disable-introspection)
 
 ## Premium Support
 

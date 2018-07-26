@@ -1,0 +1,33 @@
+sudo: required
+addons:
+  chrome: stable
+
+language: node_js
+
+node_js:
+  - "8.9.1"
+
+before_install:
+  - curl https://install.meteor.com | /bin/sh
+  - export PATH="$HOME/.meteor:$PATH"
+
+cache:
+  directories:
+    - ~/.npm
+    - "node_modules"
+
+notifications:
+  email: false
+
+before_script:
+  - "export DISPLAY=:99.0"
+  - "sh -e /etc/init.d/xvfb start"
+  - sleep 3
+
+script:
+  - meteor create --bare test
+  - cd test
+  - meteor npm i --save selenium-webdriver@3.6.0 chromedriver@2.36.0 simpl-schema
+  - meteor npm i -S graphql graphql-load apollo-server-express uuid graphql-tools graphql-type-json apollo-live-server
+  - meteor npm i -S apollo-live-client apollo-client graphql-tag apollo-cache-inmemory apollo-link apollo-link-http apollo-link-ws apollo-morpher subscriptions-transport-ws
+  - METEOR_PACKAGE_DIRS="../" TEST_BROWSER_DRIVER=chrome meteor test-packages --once --driver-package meteortesting:mocha ../

@@ -1,7 +1,9 @@
 import { Meteor } from 'meteor/meteor';
 import Config from '../config';
 
-export const getUserForContext = async loginToken => {
+const { Accounts } = Package['accounts-base'];
+
+export const getUserForContext = async (loginToken, userDefaultFields) => {
   // there is a possible current user connected!
   if (loginToken) {
     // throw an error if the token is not a string
@@ -18,7 +20,7 @@ export const getUserForContext = async loginToken => {
         'services.resume.loginTokens.hashedToken': hashedToken,
       },
       {
-        ...Config.USER_DEFAULT_FIELDS,
+        ...userDefaultFields,
         'services.resume.loginTokens': 1,
       }
     );
@@ -50,18 +52,4 @@ export const getUserForContext = async loginToken => {
   }
 
   return {};
-};
-
-// take the existing context and return a new extended context with the current
-// user if relevant (i.e. valid login token)
-export const addCurrentUserToContext = async (context, loginToken) => {
-  if (!Package['accounts-base']) {
-    return { ...context };
-  }
-
-  const userContext = await getUserForContext(loginToken);
-  return {
-    ...context,
-    ...userContext,
-  };
 };

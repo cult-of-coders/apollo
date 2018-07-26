@@ -18,4 +18,23 @@ The `Date` scalar parses `.toISOString()`, so, when you want to send a date from
 
 ---
 
+Apollo Client doesn't support scalar Hydration (meaning you will get the timestamp of the date not the objecyou desire) If you are looking to transform your scalars on your client directly use [apollo-client-transformers](https://github.com/cult-of-coders/apollo-client-transformers):
+
+```
+meteor npm i -S apollo-client-transformers
+```
+
+```js
+// on the client
+import { createTransformerLink } from 'apollo-client-transform';
+
+const transformerLink = createTransformerLink(transformers);
+
+const { client } = initialize({
+  getLink(link) {
+    return transformerLink.concat(link);
+  },
+});
+```
+
 ### [Table of Contents](index.md)

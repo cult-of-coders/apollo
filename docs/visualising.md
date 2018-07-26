@@ -52,21 +52,4 @@ Create a file `private/voyager.html` in your Meteor app:
 </html>
 ```
 
-For this you may also need to enable CORS (Cross-origin resource sharing):
-
-```
-meteor npm i -S cors
-```
-
-```js
-import { Config } from 'meteor/cultofcoders:apollo';
-
-// Maybe you want thsi only in development
-Meteor.isDevelopment && Config.EXPRESS_MIDDLEWARES.push(cors());
-```
-
-Now open the html file directly in your browser, and engage in the nice schema view.
-
----
-
 ### [Table of Contents](index.md)
