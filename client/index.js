@@ -64,7 +64,7 @@ export function initialize(config = {}) {
   let transformedLink = Config.getLink(link);
 
   const client = new ApolloClient({
-    transformedLink,
+    link: transformedLink,
     cache: new InMemoryCache({
       dataIdFromObject: object => object._id || null,
     }),
