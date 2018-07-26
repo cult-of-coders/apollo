@@ -1,8 +1,10 @@
-# Meteor Apollo (License: MIT)
+# Meteor Apollo
+
+## License: MIT
 
 [![Build Status](https://api.travis-ci.org/cult-of-coders/apollo.svg?branch=master)](https://travis-ci.org/cult-of-coders/apollo)
 
-Features:
+## Features
 
 - Plug and Play Zero-Config GraphQL Server
 - GraphQL Playground + Subscription Support
@@ -73,7 +75,7 @@ query {
 
 [Click here to go to the documentation](docs/index.md)
 
-### Useful packages
+## Useful packages
 
 - [graphql-load](https://www.npmjs.com/package/graphql-load?activeTab=readme)
 
