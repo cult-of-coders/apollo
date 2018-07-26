@@ -1,13 +1,15 @@
-# Meteor Apollo
+# Meteor Apollo (License: MIT)
+
+[![Build Status](https://api.travis-ci.org/cult-of-coders/apollo.svg?branch=master)](https://travis-ci.org/cult-of-coders/apollo)
 
 Features:
 
 - Plug and Play Zero-Config GraphQL Server
 - GraphQL Playground + Subscription Support
-- Live Queries (Reactive Scalable Queries)
-- Built-in [Grapher](https://github.com/cult-of-coders/grapher) Support
-- Date and JSON scalars
+- MongoDB Relational Support - [Grapher](https://github.com/cult-of-coders/grapher)
+- Scalable Reactive Queries - [RedisOplog](https://github.com/cult-of-coders/redis-oplog)
 - HTTP & Subscription authentication support with Meteor Accounts
+- Built-in convenience `Date` and `JSON` scalars
 
 ## Install
 
