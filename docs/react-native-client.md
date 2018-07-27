@@ -88,37 +88,7 @@ Now, every time the http link is used, it will query the latest login token. Thi
 
 ## WebSocket Link
 
-Things are slightly more complicated for websocket links which are required for subscriptions:
-
-- First, [apollo-link-ws](https://github.com/apollographql/apollo-link/tree/master/packages/apollo-link-ws) uses [subscriptions-transport-ws](https://github.com/apollographql/subscriptions-transport-ws), the latest version of which (0.9.9 as of this writing) does not support an asynchronous call to set connection parameters headers with the authorization token.
-- Second, the token is sent only once when the connection is established, so if/when the token changes, the connection needs to be reestablished.
-
-For the first issue, we need to patch [subscriptions-transport-ws](https://github.com/apollographql/subscriptions-transport-ws). Here is the patch:
-
-```diff
-patch-package
---- a/node_modules/subscriptions-transport-ws/dist/client.js
-+++ b/node_modules/subscriptions-transport-ws/dist/client.js
-@@ -380,9 +380,11 @@ var SubscriptionClient = (function () {
-             _this.clearMaxConnectTimeout();
-             _this.closedByUser = false;
-             _this.eventEmitter.emit(_this.reconnecting ? 'reconnecting' : 'connecting');
--            var payload = typeof _this.connectionParams === 'function' ? _this.connectionParams() : _this.connectionParams;
--            _this.sendMessage(undefined, message_types_1.default.GQL_CONNECTION_INIT, payload);
--            _this.flushUnsentMessagesQueue();
-+            var promise = Promise.resolve(typeof _this.connectionParams === 'function' ? _this.connectionParams() : _this.connectionParams);
-+            promise.then(payload => {
-+              _this.sendMessage(undefined, message_types_1.default.GQL_CONNECTION_INIT, payload);
-+              _this.flushUnsentMessagesQueue();
-+            })
-         };
-         this.client.onclose = function () {
-             if (!_this.closedByUser) {
-```
-
-You can use the excellent [patch-package](https://github.com/ds300/patch-package) to automatically apply this patch whenever you install node_modules with either "yarn" or "npm install".
-
-Once the patch has been applied, you can set up the WebSocketLink to use an asynchronous function to set up the authorization header:
+Things are slightly more complicated for websocket links which are required for subscriptions. You need to set up the WebSocketLink to use an asynchronous function to set up the authorization header since that is retrieved from AsyncStorage. 
 
 ```js
 // our websocket link for subscriptions
@@ -149,7 +119,7 @@ const wsLink = new WebSocketLink({
 
 Now, the login token is resolved and sent to the server when the websocket connection is established.
 
-However, we still need address the second issue where the authorization token is sent only once and not when the token changes, e.g. during logout/login. To handle this, we essentially need to bounce the websocket link:
+Also, The token is sent only once when the connection is established, so if/when the token changes, the connection needs to be reestablished. To handle this, we essentially need to bounce the websocket link:
 
 ```js
 wsLink.subscriptionClient.close(false, false);
