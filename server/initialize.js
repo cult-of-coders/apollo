@@ -47,7 +47,7 @@ export default function initialize(apolloConfig = {}, meteorApolloConfig = {}) {
         path: e.path,
       }),
       context: getContextCreator(meteorApolloConfig),
-      subscriptions: getSubscriptionConfig(),
+      subscriptions: getSubscriptionConfig(meteorApolloConfig),
     },
     apolloConfig
   );
