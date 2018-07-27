@@ -22,7 +22,7 @@ There are, however, a few things to keep in mind:
 
 - Authentication token is usually stored in AsyncStorage, and retrieval of the token is an asynchronous process.
 - The authorization header needs to set up appropriately for both http links and websocket links.
-- Some polyfills are needed
+- logout function from meteor-apollo-accounts uses ```Symbol``` which is not supported on Android.
 
 Since retrieval of the token is an asynchronous process, care must be taken to set it up appropriately for your http and websocket links. Let us first create a function to retrieve the token from AsyncStorage as a promise:
 
@@ -231,9 +231,9 @@ wsLink.subscriptionClient.onConnected(_connected);
 wsLink.subscriptionClient.onReconnected(_connected);
 ```
 
-## Polyfills
+## logout()
 
-On react-native, there are some other quirky issues. The meteor-apollo-accounts makes use of the Symbol type which is not supported on Android. A polyfille is required to handle this:
+The ```logout()``` function from meteor-apollo-accounts uses ```Symbol``` which is not supported on Android. One option is to use a polyfill from core-js at the top of your main file:
 
 ```js
 // import this since android needs this to resolve
@@ -245,21 +245,41 @@ import 'core-js/fn/symbol/iterator';
 import 'core-js/es6/set';
 ```
 
-Another polyfill is needed to handle Object.setProtoypeOf() which is used by apollo-client and not supported by android:
+However, this breaks on react-native 0.56.0 and triggers https://github.com/facebook/react-native/issues/18542
+
+The safest option seems to be to use a direct mutation:
 
 ```js
-// This polyfill is to address an issue on android
-// Object.setProtoypeOf is not defined on android
-// https://github.com/apollographql/apollo-client/issues/3236
-Object.setPrototypeOf =
-  Object.setPrototypeOf ||
-  function(obj, proto) {
-    obj.__proto__ = proto; // eslint-disable-line no-proto
-    return obj;
-  };
+let token = loginToken;
+let mutation = gql`
+mutation logout($token: String!) {
+    logout(token: $token) {
+      success
+    }
+  }`;
+
+client.mutate({
+  mutation: mutation,
+  variables: {
+    token
+  }
+}).then((result) => {
+  console.log("logout success: " + JSON.stringify(result));
+  storeLoginData({
+    userId: "",
+    token: "",
+    tokenExpires: ""
+  });
+}).catch((error) => {
+  console.log("logout error: " + JSON.stringify(error));
+  storeLoginData({
+    userId: "",
+    token: "",
+    tokenExpires: ""
+  });
+});
 ```
 
-Do both of these at the top of your main application file.
 
 This should get you functional on react-native!
 
