@@ -31,6 +31,14 @@ export default function initialize(apolloConfig = {}, meteorApolloConfig = {}) {
 
   const initialApolloConfig = Object.assign({}, apolloConfig);
   apolloConfig = {
+    introspection: Meteor.isDevelopment,
+    debug: Meteor.isDevelopment,
+    path: '/graphql',
+    formatError: e => ({
+      message: e.message,
+      locations: e.locations,
+      path: e.path,
+    }),
     ...initialApolloConfig,
     typeDefs,
     resolvers,
@@ -40,14 +48,6 @@ export default function initialize(apolloConfig = {}, meteorApolloConfig = {}) {
         ? initialApolloConfig.schemaDirectives
         : []),
     },
-    introspection: Meteor.isDevelopment,
-    debug: Meteor.isDevelopment,
-    path: '/graphql',
-    formatError: e => ({
-      message: e.message,
-      locations: e.locations,
-      path: e.path,
-    }),
     context: getContextCreator(meteorApolloConfig, initialApolloConfig.context),
     subscriptions: getSubscriptionConfig(meteorApolloConfig),
   };

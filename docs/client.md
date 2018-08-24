@@ -58,7 +58,7 @@ Initialize accepts as an argument a configuration object:
 
 ```js
 initialize({
-  disableWebsockets: false,
+  disableWebsockets: false, // Whether or not to try to connect to websockets, it connects by default
 });
 ```
 
