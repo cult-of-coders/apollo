@@ -5,18 +5,20 @@ import { split, concat, ApolloLink } from 'apollo-link';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { getMainDefinition } from 'apollo-utilities';
 import { meteorAccountsLink } from './meteorAccountsLink';
+import { createUploadLink } from 'apollo-upload-client';
 import Config from './config';
 import { checkNpmVersions } from 'meteor/tmeasday:check-npm-versions';
 
 checkNpmVersions({
   'subscriptions-transport-ws': '0.9.x',
   'apollo-live-client': '0.2.x',
+  'apollo-upload-client': '8.x.x',
   'apollo-client': '2.x.x',
   'apollo-cache-inmemory': '1.x.x',
   'apollo-link': '1.x.x',
   'apollo-link-http': '1.x.x',
   'apollo-link-ws': '1.x.x',
-  'apollo-morpher': '0.1.x',
+  'apollo-morpher': '0.2.x',
 });
 
 import {
@@ -50,8 +52,10 @@ export function initialize(config = {}) {
     uri: GRAPHQL_ENDPOINT,
   });
 
+  const uploadLink = createUploadLink();
+
   if (meteorAccountsLink) {
-    links.push(concat(meteorAccountsLink, httpLink));
+    links.push(concat(meteorAccountsLink, httpLink, uploadLink));
   } else {
     links.push(httpLink);
   }
@@ -75,6 +79,7 @@ export function initialize(config = {}) {
     link,
     wsLink,
     httpLink,
+    uploadLink,
   };
 }
 

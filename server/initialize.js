@@ -1,15 +1,11 @@
 import { Meteor } from 'meteor/meteor';
 import { db } from 'meteor/cultofcoders:grapher';
 import { WebApp } from 'meteor/webapp';
-
-import { addMockFunctionsToSchema } from 'graphql-tools';
 import { ApolloServer } from 'apollo-server-express';
-
+import { getSchema } from 'graphql-load';
 import { AUTH_TOKEN_KEY } from '../constants';
-import { getExecutableSchema } from './schema';
+import defaultSchemaDirectives from './directives';
 import { getUserForContext } from './core/users';
-import Config from './config';
-import { resolve } from 'path';
 
 /**
  *
@@ -21,8 +17,6 @@ export default function initialize(apolloConfig = {}, meteorApolloConfig = {}) {
     {
       gui: Meteor.isDevelopment,
       middlewares: [],
-      schemaDirectives: [],
-      context: { db },
       userDefaultFields: {
         _id: 1,
         roles: 1,
@@ -33,24 +27,30 @@ export default function initialize(apolloConfig = {}, meteorApolloConfig = {}) {
     meteorApolloConfig
   );
 
-  const schema = getExecutableSchema(meteorApolloConfig);
+  const { typeDefs, resolvers } = getSchema();
 
-  apolloConfig = Object.assign(
-    {
-      schema,
-      introspection: Meteor.isDevelopment,
-      debug: Meteor.isDevelopment,
-      path: '/graphql',
-      formatError: e => ({
-        message: e.message,
-        locations: e.locations,
-        path: e.path,
-      }),
-      context: getContextCreator(meteorApolloConfig),
-      subscriptions: getSubscriptionConfig(meteorApolloConfig),
+  const initialApolloConfig = Object.assign({}, apolloConfig);
+  apolloConfig = {
+    ...initialApolloConfig,
+    typeDefs,
+    resolvers,
+    schemaDirectives: {
+      ...defaultSchemaDirectives,
+      ...(initialApolloConfig.schemaDirectives
+        ? initialApolloConfig.schemaDirectives
+        : []),
     },
-    apolloConfig
-  );
+    introspection: Meteor.isDevelopment,
+    debug: Meteor.isDevelopment,
+    path: '/graphql',
+    formatError: e => ({
+      message: e.message,
+      locations: e.locations,
+      path: e.path,
+    }),
+    context: getContextCreator(meteorApolloConfig, initialApolloConfig.context),
+    subscriptions: getSubscriptionConfig(meteorApolloConfig),
+  };
 
   const server = new ApolloServer(apolloConfig);
 
@@ -74,11 +74,17 @@ export default function initialize(apolloConfig = {}, meteorApolloConfig = {}) {
   });
 }
 
-function getContextCreator(meteorApolloConfig) {
+function getContextCreator(meteorApolloConfig, defaultContextResolver) {
   return async function getContext({ req, connection }) {
+    const defaultContext = defaultContextResolver
+      ? await defaultContextResolver()
+      : {};
+
+    Object.assign(defaultContext, { db });
+
     if (connection) {
       return {
-        ...meteorApolloConfig.context,
+        ...defaultContext,
         ...connection.context,
       };
     } else {
@@ -92,7 +98,7 @@ function getContextCreator(meteorApolloConfig) {
       }
 
       return {
-        ...meteorApolloConfig.context,
+        ...defaultContext,
         ...userContext,
       };
     }
@@ -108,7 +114,7 @@ function getSubscriptionConfig(meteorApolloConfig) {
         if (loginToken) {
           const userContext = getUserForContext(
             loginToken,
-            meteorApolloConfig.userDefaultFields
+            meteorApolloConfig.userFields
           ).then(userContext => {
             resolve(userContext);
           });

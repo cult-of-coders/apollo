@@ -1,5 +1,4 @@
 let Config = {
-  context: {},
   userFields: {
     _id: 1,
     username: 1,

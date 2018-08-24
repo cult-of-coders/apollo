@@ -58,8 +58,8 @@ Initialize accepts as an argument a configuration object:
 
 ```js
 initialize({
-  DISABLE_WEBSOCKETS: false;
-})
+  disableWebsockets: false,
+});
 ```
 
 - [Read more about React Apollo](https://www.apollographql.com/docs/react/)

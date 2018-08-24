@@ -1,4 +1,4 @@
 export default {
-  DISABLE_WEBSOCKETS: false,
+  disableWebsockets: false,
   getLink: link => link,
 };
