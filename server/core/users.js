@@ -1,7 +1,9 @@
 import { Meteor } from 'meteor/meteor';
-import Config from '../config';
 
-const { Accounts } = Package['accounts-base'];
+let Accounts;
+if (Package['accounts-base']) {
+  Accounts = Package['accounts-base'].Accounts;
+}
 
 export const getUserForContext = async (loginToken, userDefaultFields) => {
   // there is a possible current user connected!
