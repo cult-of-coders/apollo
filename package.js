@@ -1,6 +1,6 @@
 Package.describe({
   name: 'cultofcoders:apollo',
-  version: '0.5.2',
+  version: '0.6.0',
   // Brief, one-line summary of the package.
   summary: 'Meteor & Apollo integration',
   // URL to the Git repository containing the source code for this package.
@@ -16,10 +16,10 @@ Package.onUse(function(api) {
   api.use('check');
   api.use('ejson');
   api.use('mongo');
+
   api.use('tmeasday:check-npm-versions@0.3.2');
-  api.use('swydo:graphql@0.4.0');
-  api.use('cultofcoders:grapher@1.3.7_1');
-  api.use('cultofcoders:grapher-schema-directives@0.1.4');
+  api.use('cultofcoders:grapher@1.3.7_4');
+  api.use('cultofcoders:grapher-schema-directives@0.1.7');
   api.use('accounts-base', { weak: true });
 
   api.mainModule('client/index.js', 'client');
