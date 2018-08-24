@@ -19,7 +19,7 @@ Package.onUse(function(api) {
 
   api.use('tmeasday:check-npm-versions@0.3.2');
   api.use('cultofcoders:grapher@1.3.7_4');
-  api.use('cultofcoders:grapher-schema-directives@0.1.7');
+  api.use('cultofcoders:grapher-schema-directives@0.1.8');
   api.use('accounts-base', { weak: true });
 
   api.mainModule('client/index.js', 'client');
