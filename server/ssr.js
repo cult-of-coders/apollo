@@ -10,17 +10,22 @@ import { StaticRouter } from 'react-router';
  * @param {String} options.root The id of element we're gonna render in
  * @param {ApolloServer} options.server The id of element we're gonna render in
  * @param {Function} options.handler Perform additional operations
+ * @param {Function} options.getLink Perform additional operations
  */
 export default function getRenderer(options) {
   const render = async sink => {
-    const schemaLink = new SchemaLink({
+    const link = new SchemaLink({
       schema: options.server.schema,
       context: await options.server.context({ req: sink.request }),
     });
 
+    if (options.getLink) {
+      link = options.getLink(link);
+    }
+
     const client = new ApolloClient({
       ssrMode: true,
-      link: schemaLink,
+      link,
       cache: new InMemoryCache(),
     });
 
