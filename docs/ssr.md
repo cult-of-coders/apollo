@@ -56,6 +56,21 @@ const ApolloApp = () => (
 ReactDOM.hydrate(<ApolloApp />, document.getElementById('react-root'));
 ```
 
+### Authentication
+
+You just need to set the cookie properly when the user is logging in. You need to run the following client-side.
+
+The reason we do this, is because when we do Server-Side Rendering we get the authentication token through cookies.
+
+```js
+import { onTokenChange } from 'meteor-apollo-accounts';
+import Cookies from 'js-cookie';
+
+onTokenChange(({ token }) => {
+  Cookies.set('meteor-login-token', token);
+});
+```
+
 ### Helmet Integration
 
 ```js
