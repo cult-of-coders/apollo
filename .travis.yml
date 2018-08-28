@@ -28,6 +28,6 @@ script:
   - meteor create --bare test
   - cd test
   - meteor npm i --save selenium-webdriver@3.6.0 chromedriver@2.36.0 simpl-schema
-  - meteor npm i -S graphql graphql-load apollo-server-express uuid graphql-tools graphql-type-json apollo-live-server apollo-link-schema react react-dom react-router react-apollo
+  - meteor npm i -S graphql graphql-load apollo-server-express uuid graphql-tools graphql-type-json apollo-live-server apollo-link-schema react-dom react-router react-apollo react
   - meteor npm i -S apollo-live-client apollo-client graphql-tag apollo-cache-inmemory apollo-link apollo-link-http apollo-link-ws apollo-morpher subscriptions-transport-ws
   - METEOR_PACKAGE_DIRS="../" TEST_BROWSER_DRIVER=chrome meteor test-packages --once --driver-package meteortesting:mocha ../
