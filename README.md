@@ -34,7 +34,7 @@ meteor add cultofcoders:apollo
 meteor add swydo:graphql
 
 # If you're looking into Server Side Rendering with React
-meteor npm i -S apollo-link-schema
+meteor npm i -S react-dom react-router apollo-link-schema
 ```
 
 Let's setup a basic query and initialize our GraphQL server:
