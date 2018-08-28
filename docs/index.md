@@ -15,3 +15,4 @@ and doing a PR to fix it. Thank you!
 - [Settings](settings.md)
 - [React-Native Client Considerations](react-native-client.md)
 - [Meteor Connectivty Simulation](meteor-connectivity.md)
+- [Server Side Rendering](ssr.md)
