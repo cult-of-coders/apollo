@@ -6,12 +6,11 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import { StaticRouter } from 'react-router';
 import React from 'react';
 
-import { Helmet } from 'react-helmet';
-
 /**
  * @param {React.Element} options.app
- * @param {string} options.root The id of element we're gonna render in
+ * @param {String} options.root The id of element we're gonna render in
  * @param {ApolloServer} options.server The id of element we're gonna render in
+ * @param {Function} options.handler Perform additional operations
  */
 export default function getRenderer(options) {
   const render = async sink => {
@@ -35,9 +34,7 @@ export default function getRenderer(options) {
       </ApolloProvider>
     );
 
-    const helmet = Helmet.renderStatic();
-    sink.appendToHead(helmet.meta.toString());
-    sink.appendToHead(helmet.title.toString());
+    options.handler && (await options.handler(sink));
 
     // load all data from local server;
     await getDataFromTree(WrappedApp);
