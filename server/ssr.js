@@ -7,7 +7,7 @@ import { StaticRouter } from 'react-router';
 import React from 'react';
 
 /**
- * @param {React.Element} options.app
+ * @param {() => React.Element} options.app
  * @param {String} options.root The id of element we're gonna render in
  * @param {ApolloServer} options.server The id of element we're gonna render in
  * @param {Function} options.handler Perform additional operations
@@ -29,7 +29,7 @@ export default function getRenderer(options) {
     const WrappedApp = (
       <ApolloProvider client={client}>
         <StaticRouter location={sink.request.url} context={context}>
-          {options.app}
+          {options.app(sink)}
         </StaticRouter>
       </ApolloProvider>
     );
