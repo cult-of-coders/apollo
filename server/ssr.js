@@ -4,7 +4,6 @@ import { ApolloClient } from 'apollo-client';
 import { SchemaLink } from 'apollo-link-schema';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { StaticRouter } from 'react-router';
-import React from 'react';
 
 /**
  * @param {() => React.Element} options.app
