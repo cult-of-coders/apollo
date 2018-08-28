@@ -1,3 +1,4 @@
+import React from 'react';
 import { renderToString } from 'react-dom/server';
 import { getDataFromTree, ApolloProvider } from 'react-apollo';
 import { ApolloClient } from 'apollo-client';
