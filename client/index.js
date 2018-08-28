@@ -11,14 +11,14 @@ import { checkNpmVersions } from 'meteor/tmeasday:check-npm-versions';
 
 checkNpmVersions({
   'subscriptions-transport-ws': '0.9.x',
-  'apollo-live-client': '0.2.x',
   'apollo-upload-client': '8.x.x',
   'apollo-client': '2.x.x',
   'apollo-cache-inmemory': '1.x.x',
   'apollo-link': '1.x.x',
   'apollo-link-http': '1.x.x',
   'apollo-link-ws': '1.x.x',
-  'apollo-morpher': '0.2.x',
+  // 'apollo-live-client': '0.2.x',
+  // 'apollo-morpher': '0.2.x',
 });
 
 import {
@@ -71,7 +71,7 @@ export function initialize(config = {}) {
     link: transformedLink,
     cache: new InMemoryCache({
       dataIdFromObject: object => object._id || null,
-    }),
+    }).restore(window.__APOLLO_STATE__ || {}),
   });
 
   return {

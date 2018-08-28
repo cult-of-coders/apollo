@@ -53,5 +53,8 @@ export const getUserForContext = async (loginToken, userDefaultFields) => {
     }
   }
 
-  return {};
+  return {
+    user: {},
+    userId: null,
+  };
 };

@@ -32,6 +32,9 @@ meteor add cultofcoders:apollo
 
 # Optional but highly recommended (so you can import .gql/.graphql files)
 meteor add swydo:graphql
+
+# If you're looking into Server Side Rendering with React
+meteor npm i -S apollo-link-schema
 ```
 
 Let's setup a basic query and initialize our GraphQL server:
