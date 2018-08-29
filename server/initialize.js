@@ -17,7 +17,7 @@ export default function initialize(apolloConfig = {}, meteorApolloConfig = {}) {
     {
       gui: Meteor.isDevelopment,
       middlewares: [],
-      userFields: {
+      userDefaultFields: {
         _id: 1,
         roles: 1,
         username: 1,
@@ -72,10 +72,6 @@ export default function initialize(apolloConfig = {}, meteorApolloConfig = {}) {
       res.end();
     }
   });
-
-  return {
-    server,
-  };
 }
 
 function getContextCreator(meteorApolloConfig, defaultContextResolver) {
@@ -94,13 +90,10 @@ function getContextCreator(meteorApolloConfig, defaultContextResolver) {
     } else {
       let userContext = {};
       if (Package['accounts-base']) {
-        const loginToken =
-          req.headers['meteor-login-token'] ||
-          req.cookies['meteor-login-token'];
-
+        const loginToken = req.headers['meteor-login-token'];
         userContext = await getUserForContext(
           loginToken,
-          meteorApolloConfig.userDefaultFields
+          meteorApolloConfig.userFields
         );
       }
 

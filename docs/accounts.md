@@ -23,7 +23,7 @@ import { initialize } from 'meteor/cultofcoders:apollo';
 initialize({}, {
   // You can configure your default fields to fetch on GraphQL request
   // This works with Subscription onConnect()
-  userDefaultFields: {
+  userFields: {
     _id: 1,
     roles: 1,
   }
