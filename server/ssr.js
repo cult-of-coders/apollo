@@ -1,10 +1,5 @@
-import React from 'react';
-import { renderToString } from 'react-dom/server';
-import { getDataFromTree, ApolloProvider } from 'react-apollo';
 import { ApolloClient } from 'apollo-client';
-import { SchemaLink } from 'apollo-link-schema';
 import { InMemoryCache } from 'apollo-cache-inmemory';
-import { StaticRouter } from 'react-router';
 
 /**
  * @param {() => React.Element} options.app
@@ -14,6 +9,12 @@ import { StaticRouter } from 'react-router';
  * @param {Function} options.getLink Perform additional operations
  */
 export default function getRenderer(options) {
+  import React from 'react';
+  import { renderToString } from 'react-dom/server';
+  import { getDataFromTree, ApolloProvider } from 'react-apollo';
+  import { StaticRouter } from 'react-router';
+  import { SchemaLink } from 'apollo-link-schema';
+
   const render = async sink => {
     const link = new SchemaLink({
       schema: options.server.schema,
