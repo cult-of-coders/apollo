@@ -6,6 +6,10 @@ if (Package['accounts-base']) {
 }
 
 export const getUserForContext = async (loginToken, userDefaultFields) => {
+  if (!Accounts) {
+    return {};
+  }
+
   // there is a possible current user connected!
   if (loginToken) {
     // throw an error if the token is not a string
