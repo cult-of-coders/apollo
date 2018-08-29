@@ -83,4 +83,4 @@ export function initialize(config = {}) {
   };
 }
 
-export { Config };
+export { Config, meteorAccountsLink };

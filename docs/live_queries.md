@@ -60,7 +60,7 @@ Meteor.setInterval(function() {
 }, 2000);
 ```
 
-You can now test your query inside GraphiQL, to see how easily it reacts to changes:
+You can now test your query inside GraphQL Playground, to see how easily it reacts to changes:
 
 ```js
 subscription {

@@ -21,13 +21,15 @@ export const getUserForContext = async (loginToken, userDefaultFields) => {
     // get the possible current user from the database
     // note: no need of a fiber aware findOne + a fiber aware call break tests
     // runned with practicalmeteor:mocha if eslint is enabled
-    const currentUser = await Meteor.users.rawCollection().findOne(
+    const currentUser = Meteor.users.findOne(
       {
         'services.resume.loginTokens.hashedToken': hashedToken,
       },
       {
-        ...userDefaultFields,
-        'services.resume.loginTokens': 1,
+        fields: {
+          ...userDefaultFields,
+          'services.resume.loginTokens': 1,
+        },
       }
     );
 

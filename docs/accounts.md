@@ -30,8 +30,6 @@ initialize({}, {
 }),
 ```
 
-`userId` works with your client and with `/graphiql` because the `Meteor.loginToken` is stored in `localStorage` and it's on the same domain, making very easy for you to test your queries and mutations.
-
 Adding accounts to your GraphQL Schema:
 
 ```
@@ -58,9 +56,7 @@ const AccountsModule = initAccounts({
 load(AccountsModule); // Make sure you have User type defined as it works directly with it
 ```
 
-Now you can already start creating users, logging in, open up your GraphiQL and look in the Mutation documentations.
-
-If you want to test authentication live and you don't yet have a client-side setup. Just create a user:
+You can register an account like this:
 
 ```js
 mutation {
@@ -73,13 +69,7 @@ mutation {
 }
 ```
 
-Store it in localStorage, in your browser console:
-
-```js
-localStorage.setItem('Meteor.loginToken', token); // the one you received from the query result
-```
-
-Create a quick `me` query:
+Test the fact that you can query the logged in user:
 
 ```js
 import { load } from 'meteor/cultofcoders:apollo';
