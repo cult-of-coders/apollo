@@ -25,7 +25,7 @@ initialize({
 
 https://www.apollographql.com/docs/apollo-server/api/apollo-server.html#constructor-options-lt-ApolloServer-gt
 
-Do not override `schema` and `context`, use `graphql-load` and `MeteorApolloOptions` for that.
+Do not override `schema`.
 
 ## `MeteorApolloOptions`
 
