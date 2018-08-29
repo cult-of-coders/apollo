@@ -17,7 +17,7 @@ export default function initialize(apolloConfig = {}, meteorApolloConfig = {}) {
     {
       gui: Meteor.isDevelopment,
       middlewares: [],
-      userDefaultFields: {
+      userFields: {
         _id: 1,
         roles: 1,
         username: 1,
