@@ -52,10 +52,8 @@ export function initialize(config = {}) {
     uri: GRAPHQL_ENDPOINT,
   });
 
-  const uploadLink = createUploadLink();
-
   if (meteorAccountsLink) {
-    links.push(concat(meteorAccountsLink, httpLink, uploadLink));
+    links.push(concat(meteorAccountsLink, httpLink));
   } else {
     links.push(httpLink);
   }
@@ -66,6 +64,9 @@ export function initialize(config = {}) {
   }, ...links);
 
   let transformedLink = Config.getLink(link);
+
+  const uploadLink = createUploadLink();
+  transformedLink = uploadLink.concat(transformedLink);
 
   const client = new ApolloClient({
     link: transformedLink,
