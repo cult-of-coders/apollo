@@ -12,7 +12,6 @@ export default function getRenderer(options) {
   import React from 'react';
   import { renderToString } from 'react-dom/server';
   import { getDataFromTree, ApolloProvider } from 'react-apollo';
-  import { StaticRouter } from 'react-router';
   import { SchemaLink } from 'apollo-link-schema';
 
   const render = async sink => {
@@ -33,11 +32,7 @@ export default function getRenderer(options) {
 
     const context = {};
     const WrappedApp = (
-      <ApolloProvider client={client}>
-        <StaticRouter location={sink.request.url} context={context}>
-          {options.app(sink)}
-        </StaticRouter>
-      </ApolloProvider>
+      <ApolloProvider client={client}>{options.app(sink)}</ApolloProvider>
     );
 
     options.handler && (await options.handler(sink));

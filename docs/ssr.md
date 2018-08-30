@@ -7,6 +7,7 @@ It uses `StaticRouter` from `react-router` so make sure your `App` entry point d
 ```js
 // This code must be executed server side
 import React from 'react';
+import { StaticRouter } from 'react-router';
 
 import { getRenderer } from 'meteor/cultofcoders:apollo';
 import { onPageLoad } from 'meteor/server-render';
@@ -16,7 +17,11 @@ import App from '../../ui/main/index';
 
 // This function provides you with the function that handles Server Side Rendering for you
 const render = getRenderer({
-  app: sink => <App />, // Main entry point function
+  app: sink => (
+    <StaticRouter location={sink.request.url}>
+      <App />
+    </StaticRouter>
+  ), // Main entry point function
   server, // This is returned by initialize() function
   root: 'react-root', // The id of the element of rendering,
   handler: async sink => {}, // Async function that allows you to perform additional operations
