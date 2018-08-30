@@ -1,7 +1,7 @@
 import ApolloClient from 'apollo-client';
 import { WebSocketLink } from 'apollo-link-ws';
 import { HttpLink } from 'apollo-link-http';
-import { split, concat, ApolloLink } from 'apollo-link';
+import ApolloLink from 'apollo-link';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { getMainDefinition } from 'apollo-utilities';
 import { meteorAccountsLink } from './meteorAccountsLink';
@@ -31,10 +31,30 @@ export function initialize(config = {}) {
   Object.assign(Config, config);
   Object.freeze(Config);
 
-  let links = [];
-  let wsLink;
+  const uploadLink = createUploadLink();
 
-  if (!Config.DISABLE_WEBSOCKETS) {
+  let terminatingLink;
+
+  // We define the HTTP Link
+  const httpLink = new HttpLink({
+    uri: GRAPHQL_ENDPOINT,
+    ...(config.httpLinkOptions || {}),
+  });
+
+  if (meteorAccountsLink) {
+    terminatingLink = ApolloLink.concat(
+      meteorAccountsLink,
+      uploadLink,
+      httpLink
+    );
+  } else {
+    terminatingLink = ApolloLink.concat(uploadLink, httpLink);
+  }
+
+  // A chance to add change the links
+  terminatingLink = Config.getLink(terminatingLink);
+
+  if (!config.disableWebsockets) {
     wsLink = new WebSocketLink({
       uri: GRAPHQL_SUBSCRIPTION_ENDPOINT,
       options: {
@@ -45,31 +65,19 @@ export function initialize(config = {}) {
       },
     });
 
-    links.push(wsLink);
+    // If it's subscription it goes through wsLink otherwise through terminatingLink
+    terminatingLink = ApolloLink.split(
+      ({ query }) => {
+        const { kind, operation } = getMainDefinition(query);
+        return kind === 'OperationDefinition' && operation === 'subscription';
+      },
+      wsLink,
+      terminatingLink
+    );
   }
-
-  const httpLink = new HttpLink({
-    uri: GRAPHQL_ENDPOINT,
-  });
-
-  if (meteorAccountsLink) {
-    links.push(concat(meteorAccountsLink, httpLink));
-  } else {
-    links.push(httpLink);
-  }
-
-  const link = split(({ query }) => {
-    const { kind, operation } = getMainDefinition(query);
-    return kind === 'OperationDefinition' && operation === 'subscription';
-  }, ...links);
-
-  let transformedLink = Config.getLink(link);
-
-  const uploadLink = createUploadLink();
-  transformedLink = uploadLink.concat(transformedLink);
 
   const client = new ApolloClient({
-    link: transformedLink,
+    link: terminatingLink,
     cache: new InMemoryCache({
       dataIdFromObject: object => object._id || null,
     }).restore(window.__APOLLO_STATE__ || {}),
@@ -77,10 +85,6 @@ export function initialize(config = {}) {
 
   return {
     client,
-    link,
-    wsLink,
-    httpLink,
-    uploadLink,
   };
 }
 

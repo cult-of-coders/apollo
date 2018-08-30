@@ -18,7 +18,7 @@ import App from '../../ui/main/index';
 // This function provides you with the function that handles Server Side Rendering for you
 const render = getRenderer({
   app: sink => (
-    <StaticRouter location={sink.request.url}>
+    <StaticRouter location={sink.request.url} context={{}}>
       <App />
     </StaticRouter>
   ), // Main entry point function
