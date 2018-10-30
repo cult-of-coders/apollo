@@ -3,7 +3,7 @@
 This package is tailored for Mongo database. If you're looking for a bare-bones API implementation, not coupled to mongo, you can look at: https://github.com/apollographql/meteor-integration
 
 This package depends on [`cultofcoders:grapher`](https://github.com/cult-of-coders/grapher), a very awesome tool,
-which allows you too query related MongoDB objects at serious speeds.
+which allows you to query related MongoDB objects at serious speeds.
 
 The difference is that we will never use the exposure mechanisms from Grapher which are used for Meteor's DDP (Methods & Publications),
 but it's not a problem, we have many other nice things we can use.

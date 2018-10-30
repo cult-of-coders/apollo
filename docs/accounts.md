@@ -2,7 +2,7 @@
 
 In Apollo your resolver receives `root`, `args` and `context`. Inside `context` we store the current `userId` and `user`:
 
-The data we fetch for user can be customised via config:
+The data we fetch for user can be customized via config:
 
 ```js
 // file: server/

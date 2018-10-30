@@ -155,7 +155,7 @@ However, we still need address the second issue where the authorization token is
 wsLink.subscriptionClient.close(false, false);
 ```
 
-This needs to be done at an appropraiate place, such when your client receives a new login token. If you are using [meteor-apollo-accounts](https://github.com/cult-of-coders/meteor-apollo-accounts), then the loginToken change will happen in the `setTokenStore()` implementation:
+This needs to be done at an appropriate place, such when your client receives a new login token. If you are using [meteor-apollo-accounts](https://github.com/cult-of-coders/meteor-apollo-accounts), then the loginToken change will happen in the `setTokenStore()` implementation:
 
 ```js
 import {
@@ -233,7 +233,7 @@ wsLink.subscriptionClient.onReconnected(_connected);
 
 ## Polyfills
 
-On react-native, there are some other quirky issues. The meteor-apollo-accounts makes use of the Symbol type which is not supported on Android. A polyfille is required to handle this:
+On react-native, there are some other quirky issues. The meteor-apollo-accounts makes use of the Symbol type which is not supported on Android. A polyfill is required to handle this:
 
 ```js
 // import this since android needs this to resolve
