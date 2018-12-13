@@ -1,6 +1,6 @@
 # Morpher
 
-This comes built in with cultofcoders:apollo package!
+Gives you a way to quickly prototype and make the client-server abstraction disappear.
 
 ## Install
 

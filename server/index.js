@@ -1,6 +1,7 @@
 import { checkNpmVersions } from 'meteor/tmeasday:check-npm-versions';
 import { load } from 'graphql-load';
 import { db } from 'meteor/cultofcoders:grapher';
+import getRenderer from './ssr';
 
 import './scalars';
 import './types';
@@ -9,7 +10,7 @@ export { getUserForContext } from './core/users';
 export { default as initialize } from './initialize';
 export { default as expose } from './morpher/expose';
 
-export { load, db };
+export { load, db, getRenderer };
 
 checkNpmVersions({
   'apollo-server-express': '2.x.x',

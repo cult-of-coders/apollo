@@ -1,13 +1,18 @@
 import getFields from './getFields';
+import { EJSON } from 'meteor/ejson';
+import { check } from 'meteor/check';
 
 export default function setupMutations(config, name, type, collection) {
   let Mutation = {};
   let MutationType = ``;
 
   if (config.insert) {
-    MutationType += `${name}Insert(document: JSON): ${type}\n`;
+    MutationType += `${name}Insert(payload: String!): ${type}\n`;
 
-    Mutation[`${name}Insert`] = (_, { document }, ctx) => {
+    Mutation[`${name}Insert`] = (_, { payload }, ctx) => {
+      const { document } = EJSON.parse(payload);
+      check(document, Object);
+
       if (typeof config.insert === 'function') {
         config.insert.call(null, ctx, { document });
       }
@@ -21,9 +26,13 @@ export default function setupMutations(config, name, type, collection) {
   }
 
   if (config.update) {
-    MutationType += `${name}Update(selector: JSON, modifier: JSON): String!\n`;
+    MutationType += `${name}Update(payload: String!): String\n`;
 
-    Mutation[`${name}Update`] = (_, { selector, modifier }, ctx) => {
+    Mutation[`${name}Update`] = (_, { payload }, ctx) => {
+      const { selector, modifier } = EJSON.parse(payload);
+      check(selector, Object);
+      check(modifier, Object);
+
       if (typeof config.update === 'function') {
         const { topLevelFields, fields } = getFields(modifier);
         config.update.call(null, ctx, {
@@ -41,9 +50,12 @@ export default function setupMutations(config, name, type, collection) {
   }
 
   if (config.remove) {
-    MutationType += `${name}Remove(selector: JSON): String\n`;
+    MutationType += `${name}Remove(payload: String!): String\n`;
 
-    Mutation[`${name}Remove`] = (_, { selector }, ctx) => {
+    Mutation[`${name}Remove`] = (_, { payload }, ctx) => {
+      const { selector } = EJSON.parse(payload);
+      check(selector, Object);
+
       if (typeof config.insert === 'function') {
         config.remove.call(null, ctx, { selector });
       }

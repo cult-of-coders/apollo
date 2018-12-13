@@ -26,8 +26,17 @@ const getConfig = object => {
   return newObject;
 };
 
+let exposedNames = [];
+
 const morph = config => {
   for (name in config) {
+    if (exposedNames.includes(name)) {
+      throw new Error(
+        `You have already exposed ${name} somewhere else. Please make sure they do not collide.`
+      );
+    }
+    exposedNames.push(name);
+
     let singleConfig = getConfig(config[name]);
     let modules = exposeSingle(name, singleConfig);
 

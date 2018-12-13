@@ -1,9 +1,15 @@
 import { Meteor } from 'meteor/meteor';
-import Config from '../config';
 
-const { Accounts } = Package['accounts-base'];
+let Accounts;
+if (Package['accounts-base']) {
+  Accounts = Package['accounts-base'].Accounts;
+}
 
 export const getUserForContext = async (loginToken, userDefaultFields) => {
+  if (!Accounts) {
+    return {};
+  }
+
   // there is a possible current user connected!
   if (loginToken) {
     // throw an error if the token is not a string
@@ -15,13 +21,15 @@ export const getUserForContext = async (loginToken, userDefaultFields) => {
     // get the possible current user from the database
     // note: no need of a fiber aware findOne + a fiber aware call break tests
     // runned with practicalmeteor:mocha if eslint is enabled
-    const currentUser = await Meteor.users.rawCollection().findOne(
+    const currentUser = Meteor.users.findOne(
       {
         'services.resume.loginTokens.hashedToken': hashedToken,
       },
       {
-        ...userDefaultFields,
-        'services.resume.loginTokens': 1,
+        fields: {
+          ...userDefaultFields,
+          'services.resume.loginTokens': 1,
+        },
       }
     );
 
@@ -51,5 +59,8 @@ export const getUserForContext = async (loginToken, userDefaultFields) => {
     }
   }
 
-  return {};
+  return {
+    user: {},
+    userId: null,
+  };
 };
