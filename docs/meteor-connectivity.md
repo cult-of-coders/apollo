@@ -211,7 +211,7 @@ With this, once, the websocket connection has been established, it will do a htt
 
 Keep in mind that the user infor you get back is not truly reactive like `Meteor.user()`. This just tells you whether you have a valid login token or not. If you want to have your user information to be reactive, you need to set up a users subscription.
 
-With this, you have achieved some level of the Meteor connectivity reactiviy we have all gotten used to. Hopefully, this was useful!
+With this, you have achieved some level of the Meteor connectivity reactivity we have all gotten used to. Hopefully, this was useful!
 
 ---
 

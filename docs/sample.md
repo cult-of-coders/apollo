@@ -61,7 +61,7 @@ query {
 }
 ```
 
-Ofcourse, when you're dealing with a big project, your data structure is surely going to change, this is just for demo purposes.
+Of course, when you're dealing with a big project, your data structure is surely going to change, this is just for demo purposes.
 Keep in mind, you can separate queries anyway you want, and `load()` them independently, the `load` function smartly merges types and resolvers and works with arrays and GraphQL modules as well.
 
 [Read more about `graphql-load`](https://www.npmjs.com/package/graphql-load?activeTab=readme)
