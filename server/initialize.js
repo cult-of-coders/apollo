@@ -81,7 +81,7 @@ export default function initialize(apolloConfig = {}, meteorApolloConfig = {}) {
 function getContextCreator(meteorApolloConfig, defaultContextResolver) {
   return async function getContext({ req, connection }) {
     const defaultContext = defaultContextResolver
-      ? await defaultContextResolver()
+      ? await defaultContextResolver({ req, connection })
       : {};
 
     Object.assign(defaultContext, { db });
