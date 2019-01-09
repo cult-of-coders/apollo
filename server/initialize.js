@@ -34,11 +34,15 @@ export default function initialize(apolloConfig = {}, meteorApolloConfig = {}) {
     introspection: Meteor.isDevelopment,
     debug: Meteor.isDevelopment,
     path: '/graphql',
-    formatError: e => ({
-      message: e.message,
-      locations: e.locations,
-      path: e.path,
-    }),
+    formatError: e => {
+      console.error(e.toString(), '\n', JSON.stringify(e, null, 4));
+
+      return {
+        message: e.message,
+        locations: e.locations,
+        path: e.path,
+      };
+    },
     ...initialApolloConfig,
     typeDefs,
     resolvers,

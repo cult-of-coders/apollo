@@ -14,8 +14,8 @@ export { load, db, getRenderer };
 
 checkNpmVersions({
   'apollo-server-express': '2.x.x',
-  graphql: '0.13.x',
+  graphql: '14.x.x',
   'graphql-load': '0.1.x',
   'graphql-type-json': '0.2.x',
-  'graphql-tools': '3.x.x',
+  'graphql-tools': '4.x.x',
 });
