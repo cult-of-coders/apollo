@@ -11,7 +11,7 @@ import { checkNpmVersions } from 'meteor/tmeasday:check-npm-versions';
 
 checkNpmVersions({
   'subscriptions-transport-ws': '0.9.x',
-  'apollo-upload-client': '8.x.x',
+  'apollo-upload-client': 'x.x.x',
   'apollo-client': '2.x.x',
   'apollo-cache-inmemory': '1.x.x',
   'apollo-link': '1.x.x',
@@ -42,11 +42,7 @@ export function initialize(config = {}) {
   });
 
   if (meteorAccountsLink) {
-    terminatingLink = ApolloLink.concat(
-      meteorAccountsLink,
-      uploadLink,
-      httpLink
-    );
+    terminatingLink = ApolloLink.concat(meteorAccountsLink, uploadLink, httpLink);
   } else {
     terminatingLink = ApolloLink.concat(uploadLink, httpLink);
   }

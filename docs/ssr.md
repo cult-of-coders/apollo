@@ -24,7 +24,7 @@ const render = getRenderer({
   ), // Main entry point function
   server, // This is returned by initialize() function
   root: 'react-root', // The id of the element of rendering,
-  handler: async sink => {}, // Async function that allows you to perform additional operations
+  handler: async (sink, apolloClient) => {}, // Async function that allows you to perform additional operations
 });
 
 // hanlde SSR

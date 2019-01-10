@@ -9,6 +9,7 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
  * @param {Function} options.getLink Perform additional operations
  */
 export default function getRenderer(options) {
+  // We weirdly do it here so the package doesn't force you to have these packages added.
   import React from 'react';
   import { renderToString } from 'react-dom/server';
   import { getDataFromTree, ApolloProvider } from 'react-apollo';
@@ -35,7 +36,7 @@ export default function getRenderer(options) {
       <ApolloProvider client={client}>{options.app(sink)}</ApolloProvider>
     );
 
-    options.handler && (await options.handler(sink));
+    options.handler && (await options.handler(sink, client));
 
     // load all data from local server;
     await getDataFromTree(WrappedApp);

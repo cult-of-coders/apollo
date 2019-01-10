@@ -1,4 +1,5 @@
 import { EJSON } from 'meteor/ejson';
+import { DOCUMENTATION_FETCH } from './docs';
 
 export default function setupDataFetching(config, name, type, collection) {
   let Query = {};
@@ -7,12 +8,15 @@ export default function setupDataFetching(config, name, type, collection) {
   let SubscriptionType = ``;
 
   QueryType += `
+    ${DOCUMENTATION_FETCH}
     ${name}(payload: String!): [${type}]!
   `;
   QueryType += `
+    ${DOCUMENTATION_FETCH}
     ${name}Count(payload: String!): Int!
   `;
   QueryType += `
+    ${DOCUMENTATION_FETCH}
     ${name}Single(payload: String!): ${type}
   `;
 
