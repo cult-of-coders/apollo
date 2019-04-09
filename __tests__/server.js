@@ -3,6 +3,7 @@ import './graphql/init';
 import './morpher/server';
 import './accounts/server';
 import './default/server';
+import './ejson/server';
 
 initialize({
   context: async () => ({

@@ -18,7 +18,7 @@ Package.onUse(function(api) {
   api.use('mongo');
 
   api.use('tmeasday:check-npm-versions@0.3.2');
-  api.use('cultofcoders:grapher@1.3.7_4');
+  api.use('cultofcoders:grapher@1.3.10');
   api.use('cultofcoders:grapher-schema-directives@0.1.8');
   api.use('accounts-base', { weak: true });
 
@@ -31,12 +31,13 @@ Package.onTest(function(api) {
 
   var packages = [
     'ecmascript',
-    'cultofcoders:mocha',
     'practicalmeteor:chai',
     'accounts-password',
-    'cultofcoders:apollo-accounts',
+    'cultofcoders:apollo-accounts@3.4.0',
     'mongo',
   ];
+
+  api.use(['meteortesting:mocha']);
 
   api.use(packages);
 
