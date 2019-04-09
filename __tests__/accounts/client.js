@@ -1,17 +1,14 @@
 import client, { wsLink } from '../apolloClient';
 import gql from 'graphql-tag';
+import { assert } from 'chai';
 import { loginWithPassword, logout } from 'meteor-apollo-accounts';
-import { resolve } from 'dns';
 
 const PASSWORD = '12345';
 
 describe('Accounts', () => {
   it('Should allow me to login', async () => {
     const username = 'account-1';
-    const userId = await loginWithPassword(
-      { username, password: PASSWORD },
-      client
-    );
+    const userId = await loginWithPassword({ username, password: PASSWORD }, client);
 
     assert.isString(userId);
     await logout(client);
@@ -26,10 +23,7 @@ describe('Accounts', () => {
 
   it('Should properly store the token in such a way that I am identified', async () => {
     const username = 'account-1';
-    const userId = await loginWithPassword(
-      { username, password: PASSWORD },
-      client
-    );
+    const userId = await loginWithPassword({ username, password: PASSWORD }, client);
 
     const query = gql`
       query {

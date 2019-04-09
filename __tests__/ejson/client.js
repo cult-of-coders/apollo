@@ -1,8 +1,7 @@
 import client, { wsLink } from '../apolloClient';
 import gql from 'graphql-tag';
-import { loginWithPassword, logout } from 'meteor-apollo-accounts';
-import { resolve } from 'dns';
 import { EJSON } from 'meteor/ejson';
+import { assert } from 'chai';
 
 const PASSWORD = '12345';
 

@@ -1,5 +1,6 @@
 import db, { setClient } from 'apollo-morpher';
 import client from '../apolloClient';
+import { assert } from 'chai';
 setClient(client);
 
 describe('Morpher', () => {

@@ -31,7 +31,6 @@ Package.onTest(function(api) {
 
   var packages = [
     'ecmascript',
-    'practicalmeteor:chai',
     'accounts-password',
     'cultofcoders:apollo-accounts@3.4.0',
     'mongo',

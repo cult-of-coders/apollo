@@ -11,8 +11,6 @@ load({
   resolvers: {
     Query: {
       jsonTest(_, { input }, { userId }) {
-        console.log(`input`, input);
-
         return {
           ...input,
         };

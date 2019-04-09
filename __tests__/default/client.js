@@ -1,7 +1,6 @@
 import client, { wsLink } from '../apolloClient';
 import gql from 'graphql-tag';
-import { loginWithPassword, logout } from 'meteor-apollo-accounts';
-import { resolve } from 'dns';
+import { assert } from 'chai';
 
 const PASSWORD = '12345';
 
@@ -15,9 +14,6 @@ describe('Default', () => {
       `,
     });
 
-    assert.equal(
-      response.data.secretContextMessage,
-      'SECRET_MESSAGE_IN_CONTEXT'
-    );
+    assert.equal(response.data.secretContextMessage, 'SECRET_MESSAGE_IN_CONTEXT');
   });
 });
