@@ -35,7 +35,7 @@ export default function initialize(apolloConfig = {}, meteorApolloConfig = {}) {
     debug: Meteor.isDevelopment,
     path: '/graphql',
     formatError: e => {
-      console.error(e.toString(), '\n', JSON.stringify(e, null, 4));
+      console.error(e);
 
       return {
         message: e.message,
@@ -99,12 +99,8 @@ function getContextCreator(meteorApolloConfig, defaultContextResolver) {
       let userContext = {};
       if (Package['accounts-base']) {
         const loginToken =
-          req.headers['meteor-login-token'] ||
-          req.cookies['meteor-login-token'];
-        userContext = await getUserForContext(
-          loginToken,
-          meteorApolloConfig.userFields
-        );
+          req.headers['meteor-login-token'] || req.cookies['meteor-login-token'];
+        userContext = await getUserForContext(loginToken, meteorApolloConfig.userFields);
       }
 
       return {
