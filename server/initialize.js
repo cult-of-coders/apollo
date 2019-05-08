@@ -30,6 +30,12 @@ export default function initialize(apolloConfig = {}, meteorApolloConfig = {}) {
   const { typeDefs, resolvers } = getSchema();
 
   const initialApolloConfig = Object.assign({}, apolloConfig);
+
+  const schemaDirectives = {
+    ...defaultSchemaDirectives,
+    ...(initialApolloConfig.schemaDirectives ? initialApolloConfig.schemaDirectives : {}),
+  };
+
   apolloConfig = {
     introspection: Meteor.isDevelopment,
     debug: Meteor.isDevelopment,
@@ -46,12 +52,7 @@ export default function initialize(apolloConfig = {}, meteorApolloConfig = {}) {
     ...initialApolloConfig,
     typeDefs,
     resolvers,
-    schemaDirectives: {
-      ...defaultSchemaDirectives,
-      ...(initialApolloConfig.schemaDirectives
-        ? initialApolloConfig.schemaDirectives
-        : []),
-    },
+    schemaDirectives,
     context: getContextCreator(meteorApolloConfig, initialApolloConfig.context),
     subscriptions: getSubscriptionConfig(meteorApolloConfig),
   };

@@ -37,7 +37,9 @@ initialize({
   // You must not override schema
 
   // You can add `schemaDirectives` and `context` without worrying about context update
-  schemaDirectives: [MyCustomDirective],
+  schemaDirectives: {
+    MyCustomDirective,
+  },
   context: async () => ({
     services
   })
