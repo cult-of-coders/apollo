@@ -54,7 +54,7 @@ export function initialize(config = { httpLinkOptions: {} }) {
 
   if (!config.disableWebsockets) {
     wsLink = new WebSocketLink({
-      uri: GRAPHQL_SUBSCRIPTION_ENDPOINT,
+      uri: config.httpLinkOptions.uri.replace(/http/,'ws'),
       options: {
         reconnect: true,
         connectionParams: () => ({
