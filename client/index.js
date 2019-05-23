@@ -27,7 +27,7 @@ import {
   AUTH_TOKEN_KEY,
 } from '../constants';
 
-export function initialize(config = {}) {
+export function initialize(config = { httpLinkOptions: {} }) {
   Object.assign(Config, config);
   Object.freeze(Config);
 
@@ -36,13 +36,11 @@ export function initialize(config = {}) {
   let terminatingLink;
 
   // Allow GRAPHQL_ENDPOINT to be changed
-  if (config.httpLinkOptions && !config.httpLinkOptions.uri) {
-    config.httpLinkOptions.uri = GRAPHQL_ENDPOINT;
-  }
+  config.httpLinkOptions.uri = (config.httpLinkOptions.uri) ? config.httpLinkOptions.uri : GRAPHQL_ENDPOINT;
 
   // We define the HTTP Link
   const httpLink = new HttpLink({
-    ...(config.httpLinkOptions || {}),
+    ...(config.httpLinkOptions),
   });
 
   if (meteorAccountsLink) {
