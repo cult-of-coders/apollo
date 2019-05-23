@@ -35,9 +35,13 @@ export function initialize(config = {}) {
 
   let terminatingLink;
 
+  // Allow GRAPHQL_ENDPOINT to be changed
+  if (config.httpLinkOptions && !config.httpLinkOptions.url) {
+    config.httpLinkOptions.url = GRAPHQL_ENDPOINT;
+  }
+
   // We define the HTTP Link
   const httpLink = new HttpLink({
-    uri: GRAPHQL_ENDPOINT,
     ...(config.httpLinkOptions || {}),
   });
 
