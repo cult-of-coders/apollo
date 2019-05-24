@@ -35,7 +35,7 @@ export function initialize(config = { httpLinkOptions: {} }) {
 
   let terminatingLink;
 
-  // Backward compatability
+  // Backward compatibility
   if (config.uri) {
     config.httpLinkOptions.uri = config.uri;
   } else {
