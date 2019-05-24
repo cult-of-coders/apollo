@@ -27,14 +27,18 @@ import {
   AUTH_TOKEN_KEY,
 } from '../constants';
 
-export function initialize(config = { httpLinkOptions: {} }) {
+export function initialize(config = {}) {
   Object.assign(Config, config);
   Object.freeze(Config);
 
   const uploadLink = createUploadLink();
 
   let terminatingLink;
-
+  
+  if (!config.httpLinkOptions) {
+    config.httpLinkOptions = {};
+  }
+  
   // Backward compatibility
   if (config.uri) {
     config.httpLinkOptions.uri = config.uri;
