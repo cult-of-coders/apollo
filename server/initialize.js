@@ -86,6 +86,7 @@ export default function initialize(apolloConfig = {}, meteorApolloConfig = {}) {
 function getContextCreator(meteorApolloConfig, initialApolloConfig) {
   const {
     context: defaultContextResolver,
+    meteorAccounts,
   } = initialApolloConfig;
 
   return async function getContext({ req: request, connection }) {
@@ -102,8 +103,7 @@ function getContextCreator(meteorApolloConfig, initialApolloConfig) {
       : {};
 
     let userContext = {};
-    if (Package['accounts-base']) {
-      const loginToken = req.headers['meteor-login-token'] || req.cookies['meteor-login-token'];
+    if (meteorAccounts !== false && Package['accounts-base']) {
       const loginToken =
         req.headers['meteor-login-token'] ||
         req.cookies['meteor-login-token'] ||
