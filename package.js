@@ -26,6 +26,10 @@ Package.onUse(function(api) {
   api.mainModule('server/index.js', 'server');
 });
 
+Npm.depends({
+  cookie: '0.4.0',
+});
+
 Package.onTest(function(api) {
   api.use('cultofcoders:apollo');
 
