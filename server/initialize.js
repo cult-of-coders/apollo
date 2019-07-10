@@ -89,6 +89,7 @@ function getContextCreator(meteorApolloConfig, initialApolloConfig) {
     meteorAccounts,
   } = initialApolloConfig;
 
+  const baseContext = { db };
   return async function getContext({ req: request, connection }) {
     // This function is called whenever a normal graphql request is being made,
     // as well as when a client initiates a new subscription. However, when a
@@ -97,10 +98,6 @@ function getContextCreator(meteorApolloConfig, initialApolloConfig) {
     // `connection.context` together with the parsed cookies, so we can
     // reconstruct a fake request object to be used by the context creator.
     const req = connection ? connection.context.req : request;
-
-    const defaultContext = defaultContextResolver
-      ? await defaultContextResolver({ req, connection })
-      : {};
 
     let userContext = {};
     if (meteorAccounts !== false && Package['accounts-base']) {
@@ -112,8 +109,17 @@ function getContextCreator(meteorApolloConfig, initialApolloConfig) {
       userContext = await getUserForContext(loginToken, meteorApolloConfig.userFields);
     }
 
+    const defaultContext = defaultContextResolver
+      ? await defaultContextResolver({
+          req,
+          connection,
+          ...baseContext,
+          ...userContext,
+        })
+      : {};
+
     return {
-      db,
+      ...baseContext,
       ...userContext,
       ...defaultContext,
     };
