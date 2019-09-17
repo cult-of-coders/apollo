@@ -14,11 +14,14 @@ initialize();
 If you want to use engine GraphQL monitoring tool:
 
 ```js
-initialize({
-  engine: {
-    apiKey: 'XXX',
-  },
-});
+initialize(
+  {},
+  {
+    engine: {
+      apiKey: "XXX"
+    }
+  }
+);
 ```
 
 ## `ApolloConstructorOptions`
@@ -36,11 +39,16 @@ initialize({
 
   // You must not override schema
 
+  // Allow custom URI, rather than Meteor.absoluteUrl()
+  uri: 'http://endpoint:5000/graphql',
+
+  meteorAccounts: true, // You can disable reading the users via Meteor accounts
   // You can add `schemaDirectives` and `context` without worrying about context update
   schemaDirectives: {
     MyCustomDirective,
   },
-  context: async () => ({
+  // You get access to db, user, userId inside the resolver.
+  context: async ({ db, user, userId }) => ({
     services
   })
 }, {
