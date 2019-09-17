@@ -34,11 +34,22 @@ export function initialize(config = {}) {
   const uploadLink = createUploadLink();
 
   let terminatingLink;
-
+  
+  if (!config.httpLinkOptions) {
+    config.httpLinkOptions = {};
+  }
+  
+  // Backward compatibility
+  if (config.uri) {
+    config.httpLinkOptions.uri = config.uri;
+  } else {
+    // Allow GRAPHQL_ENDPOINT to be changed
+    config.httpLinkOptions.uri = (config.httpLinkOptions.uri) ? config.httpLinkOptions.uri : GRAPHQL_ENDPOINT;
+  }
+  
   // We define the HTTP Link
   const httpLink = new HttpLink({
-    uri: GRAPHQL_ENDPOINT,
-    ...(config.httpLinkOptions || {}),
+    ...(config.httpLinkOptions),
   });
 
   if (meteorAccountsLink) {
@@ -52,7 +63,7 @@ export function initialize(config = {}) {
 
   if (!config.disableWebsockets) {
     wsLink = new WebSocketLink({
-      uri: GRAPHQL_SUBSCRIPTION_ENDPOINT,
+      uri: config.httpLinkOptions.uri.replace(/http/,'ws'),
       options: {
         reconnect: true,
         connectionParams: () => ({
