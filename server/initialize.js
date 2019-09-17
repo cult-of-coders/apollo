@@ -3,10 +3,10 @@ import { db } from 'meteor/cultofcoders:grapher';
 import { WebApp } from 'meteor/webapp';
 import { ApolloServer } from 'apollo-server-express';
 import { getSchema } from 'graphql-load';
+import cookie from 'cookie';
 import { AUTH_TOKEN_KEY } from '../constants';
 import defaultSchemaDirectives from './directives';
 import { getUserForContext } from './core/users';
-
 /**
  *
  * @param {*} apolloConfig Options https://www.apollographql.com/docs/apollo-server/api/apollo-server.html#constructor-options-lt-ApolloServer-gt
@@ -53,8 +53,8 @@ export default function initialize(apolloConfig = {}, meteorApolloConfig = {}) {
     typeDefs,
     resolvers,
     schemaDirectives,
-    context: getContextCreator(meteorApolloConfig, initialApolloConfig.context),
-    subscriptions: getSubscriptionConfig(meteorApolloConfig),
+    context: getContextCreator(meteorApolloConfig, initialApolloConfig),
+    subscriptions: getSubscriptionConfig(meteorApolloConfig, initialApolloConfig),
   };
 
   const server = new ApolloServer(apolloConfig);
@@ -83,51 +83,57 @@ export default function initialize(apolloConfig = {}, meteorApolloConfig = {}) {
   };
 }
 
-function getContextCreator(meteorApolloConfig, defaultContextResolver) {
-  return async function getContext({ req, connection }) {
+function getContextCreator(meteorApolloConfig, initialApolloConfig) {
+  const {
+    context: defaultContextResolver,
+    meteorAccounts,
+  } = initialApolloConfig;
+
+  const baseContext = { db };
+  return async function getContext({ req: request, connection }) {
+    // This function is called whenever a normal graphql request is being made,
+    // as well as when a client initiates a new subscription. However, when a
+    // client subscribes, the request headers are not being send along. The
+    // websocket only send those on the onConnect event. We store them on the
+    // `connection.context` together with the parsed cookies, so we can
+    // reconstruct a fake request object to be used by the context creator.
+    const req = connection ? connection.context.req : request;
+
+    let userContext = {};
+    if (meteorAccounts !== false && Package['accounts-base']) {
+      const loginToken =
+        req.headers['meteor-login-token'] ||
+        req.cookies['meteor-login-token'] ||
+        req.connectionParams && req.connectionParams[AUTH_TOKEN_KEY];
+
+      userContext = await getUserForContext(loginToken, meteorApolloConfig.userFields);
+    }
+
     const defaultContext = defaultContextResolver
-      ? await defaultContextResolver({ req, connection })
+      ? await defaultContextResolver({
+          req,
+          connection,
+          ...baseContext,
+          ...userContext,
+        })
       : {};
 
-    Object.assign(defaultContext, { db });
-
-    if (connection) {
-      return {
-        ...defaultContext,
-        ...connection.context,
-      };
-    } else {
-      let userContext = {};
-      if (Package['accounts-base']) {
-        const loginToken =
-          req.headers['meteor-login-token'] || req.cookies['meteor-login-token'];
-        userContext = await getUserForContext(loginToken, meteorApolloConfig.userFields);
-      }
-
-      return {
-        ...defaultContext,
-        ...userContext,
-      };
-    }
+    return {
+      ...baseContext,
+      ...userContext,
+      ...defaultContext,
+    };
   };
 }
 
-function getSubscriptionConfig(meteorApolloConfig) {
+function getSubscriptionConfig() {
   return {
-    onConnect: async (connectionParams, webSocket, context) => {
-      const loginToken = connectionParams[AUTH_TOKEN_KEY];
+    onConnect: async (connectionParams, webSocket, { request }) => {
+      return new Promise(resolve => {
+        const headers = request.headers;
+        const cookies = cookie.parse(headers['cookie'] || '');
 
-      return new Promise((resolve, reject) => {
-        if (loginToken) {
-          const userContext = getUserForContext(
-            loginToken,
-            meteorApolloConfig.userFields
-          ).then(userContext => {
-            resolve(userContext);
-          });
-        } else {
-          resolve({});
-        }
+        return resolve({ req: { headers, cookies, connectionParams } });
       });
     },
   };
