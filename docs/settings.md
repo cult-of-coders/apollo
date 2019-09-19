@@ -1,6 +1,7 @@
 # Settings
 
 ```js
+// server
 import { initialize } from 'meteor/cultofcoders:apollo';
 
 initialize(ApolloConstructorOptions?, MeteorApolloOptions?);
@@ -14,6 +15,7 @@ initialize();
 If you want to use engine GraphQL monitoring tool:
 
 ```js
+// server
 initialize(
   {},
   {
@@ -33,14 +35,12 @@ Do not override `schema`.
 ## `MeteorApolloOptions`
 
 ```js
+// server
 initialize({
   // Here you can provide the apollo options provided here:
   // https://www.apollographql.com/docs/apollo-server/api/apollo-server.html#constructor-options-lt-ApolloServer-gt
 
   // You must not override schema
-
-  // Allow custom URI, rather than Meteor.absoluteUrl()
-  uri: 'http://endpoint:5000/graphql',
 
   meteorAccounts: true, // You can disable reading the users via Meteor accounts
   // You can add `schemaDirectives` and `context` without worrying about context update
