@@ -1,6 +1,6 @@
 import ApolloClient from 'apollo-client';
 import { WebSocketLink } from 'apollo-link-ws';
-import { HttpLink } from 'apollo-link-http';
+import { createHttpLink } from 'apollo-link-http';
 import ApolloLink from 'apollo-link';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { getMainDefinition } from 'apollo-utilities';
@@ -31,27 +31,27 @@ export function initialize(config = {}) {
   Object.assign(Config, config);
   Object.freeze(Config);
 
-  const uploadLink = createUploadLink();
-
   let terminatingLink;
-  
+
   if (!config.httpLinkOptions) {
     config.httpLinkOptions = {};
   }
-  
+
   // Backward compatibility
   if (config.uri) {
     config.httpLinkOptions.uri = config.uri;
   } else {
     // Allow GRAPHQL_ENDPOINT to be changed
-    config.httpLinkOptions.uri = (config.httpLinkOptions.uri) ? config.httpLinkOptions.uri : GRAPHQL_ENDPOINT;
+    config.httpLinkOptions.uri = config.httpLinkOptions.uri
+      ? config.httpLinkOptions.uri
+      : GRAPHQL_ENDPOINT;
   }
-  
-  // We define the HTTP Link
-  const httpLink = new HttpLink({
-    ...(config.httpLinkOptions),
-  });
 
+  const uploadLink = createUploadLink(config.httpLinkOptions);
+
+  // We define the HTTP Link
+  const httpLink = createHttpLink(config.httpLinkOptions);
+  console.log(config.httpLinkOptions);
   if (meteorAccountsLink) {
     terminatingLink = ApolloLink.concat(meteorAccountsLink, uploadLink, httpLink);
   } else {
@@ -63,7 +63,7 @@ export function initialize(config = {}) {
 
   if (!config.disableWebsockets) {
     wsLink = new WebSocketLink({
-      uri: config.httpLinkOptions.uri.replace(/http/,'ws'),
+      uri: config.httpLinkOptions.uri.replace(/http/, 'ws'),
       options: {
         reconnect: true,
         connectionParams: () => ({
