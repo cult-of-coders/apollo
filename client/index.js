@@ -51,7 +51,7 @@ export function initialize(config = {}) {
 
   // We define the HTTP Link
   const httpLink = createHttpLink(config.httpLinkOptions);
-  console.log(config.httpLinkOptions);
+  
   if (meteorAccountsLink) {
     terminatingLink = ApolloLink.concat(meteorAccountsLink, uploadLink, httpLink);
   } else {
