@@ -4,7 +4,7 @@ import { createHttpLink } from 'apollo-link-http';
 import ApolloLink from 'apollo-link';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { getMainDefinition } from 'apollo-utilities';
-import { meteorAccountsLink } from './meteorAccountsLink';
+import meteorAccountsLink from './meteorAccountsLink';
 import { createUploadLink } from 'apollo-upload-client';
 import Config from './config';
 import { checkNpmVersions } from 'meteor/tmeasday:check-npm-versions';
@@ -51,8 +51,8 @@ export function initialize(config = {}) {
 
   // We define the HTTP Link
   const httpLink = createHttpLink(config.httpLinkOptions);
-  
-  if (meteorAccountsLink) {
+
+  if (!config.disableMeteorAccounts) {
     terminatingLink = ApolloLink.concat(meteorAccountsLink, uploadLink, httpLink);
   } else {
     terminatingLink = ApolloLink.concat(uploadLink, httpLink);
