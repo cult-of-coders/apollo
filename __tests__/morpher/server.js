@@ -4,7 +4,7 @@ import setupMutations from "../../server/morpher/setupMutations";
 import setupDataFetching from "../../server/morpher/setupDataFetching";
 import { assert } from "chai";
 
-describe.only("Unit tests", () => {
+describe("Unit tests", () => {
   it("Should send all the right args to the config functions", () => {
     const testRest = [
       {},
@@ -51,7 +51,7 @@ describe.only("Unit tests", () => {
       },
       "test",
       "TestEntity",
-      () => db.users
+      () => db.tests
     );
 
     const { Query } = setupDataFetching(
@@ -63,7 +63,7 @@ describe.only("Unit tests", () => {
       },
       "test",
       "TestEntity",
-      () => db.users
+      () => db.tests
     );
 
     const safeRun = fn => {
