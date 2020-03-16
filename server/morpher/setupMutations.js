@@ -1,7 +1,11 @@
-import getFields from './getFields';
-import { EJSON } from 'meteor/ejson';
-import { check } from 'meteor/check';
-import { DOCUMENTATION_INSERT, DOCUMENTATION_REMOVE, DOCUMENTATION_UPDATE } from './docs';
+import getFields from "./getFields";
+import { EJSON } from "meteor/ejson";
+import { check } from "meteor/check";
+import {
+  DOCUMENTATION_INSERT,
+  DOCUMENTATION_REMOVE,
+  DOCUMENTATION_UPDATE
+} from "./docs";
 
 export default function setupMutations(config, name, type, collection) {
   let Mutation = {};
@@ -13,18 +17,18 @@ export default function setupMutations(config, name, type, collection) {
       ${name}Insert(payload: String!): ${type}\n
     `;
 
-    Mutation[`${name}Insert`] = (_, { payload }, ctx) => {
+    Mutation[`${name}Insert`] = (_, { payload }, ctx, ast) => {
       const { document } = EJSON.parse(payload);
       check(document, Object);
 
-      if (typeof config.insert === 'function') {
-        config.insert.call(null, ctx, { document });
+      if (typeof config.insert === "function") {
+        config.insert.call(null, ctx, { document }, _, { payload }, ctx, ast);
       }
 
       const docId = collection().insert(document);
 
       return {
-        _id: docId,
+        _id: docId
       };
     };
   }
@@ -35,24 +39,32 @@ export default function setupMutations(config, name, type, collection) {
       ${name}Update(payload: String!): String\n
     `;
 
-    Mutation[`${name}Update`] = (_, { payload }, ctx) => {
+    Mutation[`${name}Update`] = (_, { payload }, ctx, ast) => {
       const { selector, modifier } = EJSON.parse(payload);
       check(selector, Object);
       check(modifier, Object);
 
-      if (typeof config.update === 'function') {
+      if (typeof config.update === "function") {
         const { topLevelFields, fields } = getFields(modifier);
-        config.update.call(null, ctx, {
-          selector,
-          modifier,
-          modifiedFields: fields,
-          modifiedTopLevelFields: topLevelFields,
-        });
+        config.update.call(
+          null,
+          ctx,
+          {
+            selector,
+            modifier,
+            modifiedFields: fields,
+            modifiedTopLevelFields: topLevelFields
+          },
+          _,
+          { payload },
+          ctx,
+          ast
+        );
       }
 
       const docId = collection().update(selector, modifier);
 
-      return 'ok';
+      return "ok";
     };
   }
 
@@ -62,17 +74,17 @@ export default function setupMutations(config, name, type, collection) {
       ${name}Remove(payload: String!): String\n
     `;
 
-    Mutation[`${name}Remove`] = (_, { payload }, ctx) => {
+    Mutation[`${name}Remove`] = (_, { payload }, ctx, ast) => {
       const { selector } = EJSON.parse(payload);
       check(selector, Object);
 
-      if (typeof config.insert === 'function') {
-        config.remove.call(null, ctx, { selector });
+      if (typeof config.insert === "function") {
+        config.remove.call(null, ctx, { selector }, _, { payload }, ctx, ast);
       }
 
       collection().remove(selector);
 
-      return 'ok';
+      return "ok";
     };
   }
 

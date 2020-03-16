@@ -20,10 +20,11 @@ expose({
     collection: () => collection,
     // In the mutation methods you can perform propper checks, you get access to the context
     // You have ability to extract user from ctx `ctx.userId` or `ctx.user`
-    update: (ctx, {selector, modifier, modifiedFields, modifiedTopLevelFields}) => true,
-    insert: (ctx, {document}) => true,
-    remove: (ctx, {selector}) => true,
-    find(ctx, params) {
+    // GRAPHQL_RESOLVER_ARGS = [ parent, args, ctx, ast ]
+    update: (ctx, {selector, modifier, modifiedFields, modifiedTopLevelFields}, ...GRAPHQL_RESOLVER_ARGS) => true,
+    insert: (ctx, {document}, ...GRAPHQL_RESOLVER_ARGS) => true,
+    remove: (ctx, {selector}, ...GRAPHQL_RESOLVER_ARGS) => true,
+    find(ctx, params, ...GRAPHQL_RESOLVER_ARGS) {
       // params is an object
       // by default filters, options are always empty objects, if they were not passed
       // if you pass other params filters and options will still be empty objects
@@ -52,7 +53,7 @@ expose({
 
 ```js
 // Then on the client
-import db, { setClient } from 'apollo-morpher';
+import db, { setClient } from "apollo-morpher";
 
 // Set your Apollo client
 setClient(apolloClient);
@@ -67,8 +68,8 @@ const fields = {
   firstName: 1,
   lastName: 1,
   lastInvoices: {
-    total: 1,
-  },
+    total: 1
+  }
 };
 
 // Or you could also define the fields in GraphQL style `firstName`
@@ -76,14 +77,14 @@ const fields = {
 db.users
   .find(fields, {
     filters: {},
-    options: {},
+    options: {}
   })
   .then(users => {});
 
 // find equivallent .findOne()
 db.users
   .findOne(fields, {
-    filters: { _id: 'XXX' },
+    filters: { _id: "XXX" }
   })
   .then(user => {});
 
@@ -91,7 +92,7 @@ db.users
 db.users
   .count({
     filters,
-    options,
+    options
   })
   .then(count => {});
 ```

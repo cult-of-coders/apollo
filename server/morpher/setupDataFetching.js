@@ -1,5 +1,5 @@
-import { EJSON } from 'meteor/ejson';
-import { DOCUMENTATION_FETCH } from './docs';
+import { EJSON } from "meteor/ejson";
+import { DOCUMENTATION_FETCH } from "./docs";
 
 export default function setupDataFetching(config, name, type, collection) {
   let Query = {};
@@ -25,25 +25,33 @@ export default function setupDataFetching(config, name, type, collection) {
   const resolveSelectors = (_, { params }, ctx, ast) => {
     let astToQueryOptions;
 
-    if (typeof config.find === 'function') {
+    if (typeof config.find === "function") {
       params = Object.assign(
         {
           filters: {},
-          options: {},
+          options: {}
         },
         params
       );
 
-      let astToQueryOptions = config.find.call(null, ctx, params, ast);
+      let astToQueryOptions = config.find.call(
+        null,
+        ctx,
+        params,
+        _,
+        { params },
+        ctx,
+        ast
+      );
       if (astToQueryOptions === false) {
-        throw new Error('Unauthorized');
+        throw new Error("Unauthorized");
       }
     }
 
     if (astToQueryOptions === undefined || astToQueryOptions === true) {
       astToQueryOptions = {
         $filters: params.filters || {},
-        $options: params.options || {},
+        $options: params.options || {}
       };
     }
 
@@ -61,7 +69,7 @@ export default function setupDataFetching(config, name, type, collection) {
 
   Query = {
     [name]: fn,
-    [name + 'Count'](_, { payload }, ctx, ast) {
+    [name + "Count"](_, { payload }, ctx, ast) {
       const params = EJSON.parse(payload);
       const astToQueryOptions = resolveSelectors(_, { params }, ctx, ast);
 
@@ -69,10 +77,10 @@ export default function setupDataFetching(config, name, type, collection) {
         .find(astToQueryOptions.$filters || {})
         .count();
     },
-    [name + 'Single'](_, args, ctx, ast) {
+    [name + "Single"](_, args, ctx, ast) {
       const result = fn.call(null, _, args, ctx, ast);
       return result[0] || null;
-    },
+    }
   };
 
   /**
