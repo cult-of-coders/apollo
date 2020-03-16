@@ -52,7 +52,7 @@ expose({
 
 ```js
 // Then on the client
-import db, { setClient } from 'apollo-morpher';
+import db, { setClient } from "apollo-morpher";
 
 // Set your Apollo client
 setClient(apolloClient);
@@ -67,8 +67,8 @@ const fields = {
   firstName: 1,
   lastName: 1,
   lastInvoices: {
-    total: 1,
-  },
+    total: 1
+  }
 };
 
 // Or you could also define the fields in GraphQL style `firstName`
@@ -76,14 +76,14 @@ const fields = {
 db.users
   .find(fields, {
     filters: {},
-    options: {},
+    options: {}
   })
   .then(users => {});
 
 // find equivallent .findOne()
 db.users
   .findOne(fields, {
-    filters: { _id: 'XXX' },
+    filters: { _id: "XXX" }
   })
   .then(user => {});
 
@@ -91,7 +91,7 @@ db.users
 db.users
   .count({
     filters,
-    options,
+    options
   })
   .then(count => {});
 ```
