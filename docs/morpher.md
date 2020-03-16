@@ -20,10 +20,11 @@ expose({
     collection: () => collection,
     // In the mutation methods you can perform propper checks, you get access to the context
     // You have ability to extract user from ctx `ctx.userId` or `ctx.user`
-    update: (ctx, {selector, modifier, modifiedFields, modifiedTopLevelFields}) => true,
-    insert: (ctx, {document}) => true,
-    remove: (ctx, {selector}) => true,
-    find(ctx, params) {
+    // GRAPHQL_RESOLVER_ARGS = [ parent, args, ctx, ast ]
+    update: (ctx, {selector, modifier, modifiedFields, modifiedTopLevelFields}, ...GRAPHQL_RESOLVER_ARGS) => true,
+    insert: (ctx, {document}, ...GRAPHQL_RESOLVER_ARGS) => true,
+    remove: (ctx, {selector}, ...GRAPHQL_RESOLVER_ARGS) => true,
+    find(ctx, params, ...GRAPHQL_RESOLVER_ARGS) {
       // params is an object
       // by default filters, options are always empty objects, if they were not passed
       // if you pass other params filters and options will still be empty objects
