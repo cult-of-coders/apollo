@@ -90,7 +90,7 @@ function getContextCreator(meteorApolloConfig, initialApolloConfig) {
   } = initialApolloConfig;
 
   const baseContext = { db };
-  return async function getContext({ req: request, connection }) {
+  return async function getContext({ req: request, res, connection }) {
     // This function is called whenever a normal graphql request is being made,
     // as well as when a client initiates a new subscription. However, when a
     // client subscribes, the request headers are not being send along. The
@@ -112,6 +112,7 @@ function getContextCreator(meteorApolloConfig, initialApolloConfig) {
     const defaultContext = defaultContextResolver
       ? await defaultContextResolver({
           req,
+          res,
           connection,
           ...baseContext,
           ...userContext,
