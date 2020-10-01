@@ -1,16 +1,16 @@
 Package.describe({
   name: "cultofcoders:apollo",
-  version: "0.10.0",
+  version: "0.10.1",
   // Brief, one-line summary of the package.
   summary: "Meteor & Apollo integration",
   // URL to the Git repository containing the source code for this package.
   git: "https://github.com/cult-of-coders/apollo.git",
   // By default, Meteor will default to using README.md for documentation.
   // To avoid submitting documentation, set this field to null.
-  documentation: "README.md"
+  documentation: "README.md",
 });
 
-Package.onUse(function(api) {
+Package.onUse(function (api) {
   api.versionsFrom("1.3");
   api.use("ecmascript");
   api.use("check");
@@ -27,17 +27,17 @@ Package.onUse(function(api) {
 });
 
 Npm.depends({
-  cookie: "0.4.0"
+  cookie: "0.4.0",
 });
 
-Package.onTest(function(api) {
+Package.onTest(function (api) {
   api.use("cultofcoders:apollo");
 
   var packages = [
     "ecmascript",
     "accounts-password",
     "cultofcoders:apollo-accounts@3.4.0",
-    "mongo"
+    "mongo",
   ];
 
   api.use(["meteortesting:mocha"]);
